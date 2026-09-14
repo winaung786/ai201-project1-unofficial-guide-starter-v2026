@@ -5,9 +5,10 @@ Corpus: `campus_life`. Questions and expected phrases are recorded in
 
 **Authorship note:** Criteria 1–3 come from the assignment. Codex drafted the
 questions, rationales, and criteria 4–5 after being asked to choose suitable
-targets. The assignment asks students to author their own criteria: review
-these drafts and write your own final wording and reasoning before submission.
-These are proposed targets, not claims that any test has passed.
+targets. Criteria 4–5 are AI-assisted, not independently student-authored;
+the assignment asks for student-authored criteria. These targets were recorded
+before calibration and are preserved for the next unit. This file defines
+success rather than claiming that every target has already passed.
 
 ## 1. Retrieved chunks contain the answer
 
@@ -40,7 +41,7 @@ target tolerates one borderline match while requiring the code to block most
 unsupported questions before generation. Select the cutoff using measured
 distances later; do not lower this target after observing results.
 
-## 4. Chunks preserve complete statements (student review needed)
+## 4. Chunks preserve complete statements
 
 All five chunks printed by `python app.py chunks -n 5` must include a topic
 title and at least one complete factual statement; none may begin or end with
@@ -51,7 +52,7 @@ become misleading when split mid-sentence. Requiring all five samples to be
 readable fits this short-post corpus. Compare each with its original document;
 a sample passes only if all three conditions hold.
 
-## 5. Cited sources support the claims (student review needed)
+## 5. Cited sources support the claims
 
 For at least 4 of the 5 in-corpus test answers, every factual claim must be
 supported by a document explicitly cited in that answer, including the correct

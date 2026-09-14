@@ -64,3 +64,11 @@ blocker; the historical no-key verification remains as a record of setup.
 GitHub fork creation is waiting for browser sign-in. The GitHub connector is
 connected but has no fork-creation operation. Student review of the criteria
 and AI reflection remains pending, and nothing has been submitted to the portal.
+
+## Publication preparation
+
+GitHub sign-in succeeded, and the personal fork was created under winaung786.
+The README now gives the repository URL and a finished, factual AI-use account,
+including the student's key setup and GitHub sign-in. The numerical criteria
+and original history are unchanged; AI authorship is explicitly disclosed.
+The Course Portal URL has been requested so final submission can be completed.

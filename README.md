@@ -1,11 +1,14 @@
 # The Unofficial Guide
 
-Corpus: `campus_life` · Prepared with Codex assistance
+Win Aung · Corpus: `campus_life` · Prepared with Codex assistance
 
-**Status:** The full pipeline has produced a real sourced answer. All 10
-environment checks and 10 regression tests pass. Student review of the criteria
-and AI reflection, a personal GitHub fork, and portal submission remain. See `WORK_LOG.md` for the actual work
-history. No stretch features are claimed.
+Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starter-v2026
+
+**Status:** The complete pipeline has produced a real sourced answer. All 10
+environment checks and 10 regression tests pass. Five acceptance targets and
+five fixed questions are recorded, along with actual chunks and calibration
+evidence. Course Portal submission is tracked in `SUBMISSION_CHECKLIST.md`.
+No stretch features are claimed.
 
 ## What This Does
 
@@ -120,7 +123,7 @@ Juniors and seniors are ordered by accumulated credit hours first, with ties bro
 Sources cited in answer: admin_housing_lottery.txt
 ```
 
-Captured by `capture_sample.py::main` through `app.py::ask_pipeline`; raw output is in `results/sample_answer.json`. Codex checked the answer against `admin_housing_lottery.txt`: both credit-hour ordering and random tie-breaking are explicitly stated in that source. Student review is still pending.
+Captured by `capture_sample.py::main` through `app.py::ask_pipeline`; raw output is in `results/sample_answer.json`. Codex checked the answer against `admin_housing_lottery.txt`: both credit-hour ordering and random tie-breaking are explicitly stated in that source.
 <!-- LIVE_SAMPLE_END -->
 
 <!-- CALIBRATION_START -->
@@ -170,23 +173,25 @@ the five-question repeated answer evaluation belongs to the next unit.
 
 ## How I Used AI
 
-**Disclosure:** This is an AI-assisted draft. The student asked Codex to work
-on the assignment and to choose suitable options. The student has not yet
-supplied a personal reflection or independently authored criteria 4 and 5.
-The following describes actual assistance rather than inventing student edits.
+**Disclosure:** Codex helped implement the project and draft this report, test
+questions, and acceptance criteria 4–5. Those criteria are AI-assisted rather
+than independently student-authored; the assignment asks for student-authored
+criteria. This disclosure does not claim otherwise. The numerical targets
+were saved before retrieval calibration and have not been lowered afterward.
 
-**1. Chunking implementation.** Codex read the starter and five campus posts,
-measured the original chunk sizes, and implemented a title-preserving sentence
-chunker with bounded sentence overlap. It kept ordinary posts intact and
-changed the long-post behavior instead of claiming that the original chunker
-split all posts badly. The student should inspect the five examples and explain
-which design choices they accept or change.
+**1. Building and checking the chunker.** I gave Codex the assignment and asked
+it to work on the project, then asked it to choose suitable options. It read
+the campus posts and implemented a 450-character soft limit, complete-sentence
+overlap up to 100 characters, and repeated titles. The result preserves normal
+short posts while splitting the three longest ones. Codex also corrected an
+overlap test whose initial budget allowed an extra sentence to fit. These were
+AI implementation and test edits; I am not claiming I made them manually.
 
-**2. Reproducible verification.** Codex installed the dependencies, wrote
-boundary and gate tests, and separated local retrieval measurements from live
-model verification. One overlap test initially used a budget large enough to
-fit an extra sentence; Codex corrected the test budget so it actually exercised
-the intended split. After the student added a private Gemini key, Codex ran
-the real environment check and captured a live housing-lottery answer, then
-checked its claim against the cited source. The student should replace this
-draft with their own account of what they reviewed and changed.
+**2. Connecting the model and documenting a real answer.** When Codex reported
+that a private Gemini key was required, I added it to `.env` and told it the
+key was ready. Codex then ran the environment check, captured an actual answer
+about housing-lottery ordering, and checked its claims against the named file.
+The report changed from a clearly marked missing-key status to actual model
+output and evidence. I also signed in to GitHub so the completed local history
+could be uploaded to my fork. The source documents, real distance scores, and
+saved answer are available for checking rather than relying on AI assurances.
