@@ -13,10 +13,12 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
   all five out-of-scope questions are refused with zero model calls.
 - Complete: personal fork created under winaung786. Local project history
   includes more than the four required milestone commits.
-- Publication: the connected GitHub service is publishing the local milestones
-  in their original order because command-line Git has no saved credentials.
-  Original local commit IDs and dates are recorded in the GitHub commit
-  messages; the original local history is retained separately.
+- Complete: all seven local milestones were published through the connected
+  GitHub service in their original order. The published file tree exactly
+  matches the original final local snapshot. Original local IDs and dates
+  are recorded in commit messages, and the original commits are retained
+  on the local `original-local-milestones` branch. The working `main` branch
+  tracks the published GitHub history.
 - Course Portal submission will be handled by the student, as requested.
 
 The AI-use report describes the actual assistance and student actions. It does

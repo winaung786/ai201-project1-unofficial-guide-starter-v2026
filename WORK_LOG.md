@@ -88,3 +88,17 @@ backdated. The original local commits are retained on a separate branch after
 synchronizing the checkout with the published main branch.
 
 Portal submission remains the student's responsibility, by explicit request.
+
+## Upload verified — September 14, 2026
+
+All seven milestone snapshots were published in order to the personal fork.
+Each GitHub tree hash matched its corresponding original local tree hash.
+After publication, fetching the repository confirmed that the final published
+snapshot and local project both had tree ID
+`94b0382845bf17da9d2c12092edfd5ccc519cae5`.
+
+The original commits are retained on the local `original-local-milestones`
+branch. The working `main` branch now tracks the GitHub history. Credentials,
+local model caches, the virtual environment, and the local vector database
+are excluded from publication. Portal submission was intentionally left to
+the student. The AI-assisted authorship is disclosed in the report and criteria.
