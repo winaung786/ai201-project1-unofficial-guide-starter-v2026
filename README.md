@@ -2,9 +2,9 @@
 
 Corpus: `campus_life` · Prepared with Codex assistance
 
-**Status:** Local search and calibration are complete; 10 regression tests pass. A private Gemini API key, a
-student review of the criteria and AI reflection, and a personal GitHub fork
-are still needed before submission. See `WORK_LOG.md` for the actual work
+**Status:** The full pipeline has produced a real sourced answer. All 10
+environment checks and 10 regression tests pass. Student review of the criteria
+and AI reflection, a personal GitHub fork, and portal submission remain. See `WORK_LOG.md` for the actual work
 history. No stretch features are claimed.
 
 ## What This Does
@@ -110,12 +110,17 @@ title and intact statements. This inspection is not the week-2 evaluation.
 ## Sample Answer
 
 <!-- LIVE_SAMPLE_START -->
-**Live generated answer pending:** No valid Gemini key has been configured.
-A model answer has not been generated or verified; no invented answer is
-presented as program output here. After adding your key privately to `.env`,
-run `python test.py`, then `python capture_sample.py`. The latter captures
-one real answer and its source filenames into this section automatically.
-Review the output before submitting.
+**Question:** How are juniors and seniors ordered in the housing lottery?
+
+**Answer (actual application output):**
+
+```text
+Juniors and seniors are ordered by accumulated credit hours first, with ties broken randomly (`admin_housing_lottery.txt`).
+
+Sources cited in answer: admin_housing_lottery.txt
+```
+
+Captured by `capture_sample.py::main` through `app.py::ask_pipeline`; raw output is in `results/sample_answer.json`. Codex checked the answer against `admin_housing_lottery.txt`: both credit-hour ordering and random tie-breaking are explicitly stated in that source. Student review is still pending.
 <!-- LIVE_SAMPLE_END -->
 
 <!-- CALIBRATION_START -->
@@ -158,8 +163,9 @@ best result does not make every retrieved chunk relevant.
 
 The prompt uses only retrieved documents, demands filenames next to claims,
 and instructs the model to refuse unsupported details. It also treats commands
-inside documents as data. These instructions still need live testing once the
-Gemini key is configured; they cannot guarantee factual grounding by themselves.
+inside documents as data. The housing-lottery sample has now been tested live and checked against its
+source. This single example does not establish grounding for every question;
+the five-question repeated answer evaluation belongs to the next unit.
 <!-- CALIBRATION_END -->
 
 ## How I Used AI
@@ -180,6 +186,7 @@ which design choices they accept or change.
 boundary and gate tests, and separated local retrieval measurements from live
 model verification. One overlap test initially used a budget large enough to
 fit an extra sentence; Codex corrected the test budget so it actually exercised
-the intended split. The missing API key is recorded instead of treating a
-mocked response as a real sample answer. The student should replace this draft
-with their own account of what they reviewed and changed.
+the intended split. After the student added a private Gemini key, Codex ran
+the real environment check and captured a live housing-lottery answer, then
+checked its claim against the cited source. The student should replace this
+draft with their own account of what they reviewed and changed.

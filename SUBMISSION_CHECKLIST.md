@@ -1,23 +1,19 @@
 # Before submission
 
-The local project has the pipeline, five questions, proposed criteria, five
-actual sample chunks, and measured relevance distances. It is not yet ready
-to submit because a live Gemini answer and student-authored reflection are
-still missing, and no personal GitHub fork has been created.
+The local pipeline is working. A real Gemini answer with a source citation is
+saved in README.md and results/sample_answer.json. All 10 environment checks
+and 10 regression tests pass. Student review, a GitHub fork, and portal
+submission remain.
 
-1. Privately replace the placeholder in `.env` with your Gemini API key.
-   Do not paste the key into chat. From this project folder run:
+1. **Completed:** The student added the Gemini key privately. Codex ran the
+   environment check, captured the live housing-lottery answer, and verified
+   credit-hour ordering and random tie-breaking against the cited file.
+   `.env` remains ignored by Git. To reproduce the sample later:
 
    ```powershell
    .\.venv\Scripts\python.exe -X utf8 test.py
    .\.venv\Scripts\python.exe -X utf8 capture_sample.py
    ```
-
-   The first command must pass, including its real model call. The second
-   saves a real answer and source filenames to the README. Verify every
-   claim against the named source file. If a model name error occurs, use
-   the course's current model setting in `.env` as `AI201_MODEL`; the starter
-   default has been preserved and has not been verified without a key.
 
 2. Read `criteria.md`. The assignment specifically asks you to author your
    criteria; criteria 4–5 and the rationales are AI-assisted drafts. Write
@@ -44,7 +40,9 @@ still missing, and no personal GitHub fork has been created.
 
    Replace YOUR-USERNAME with your actual GitHub username. Run the rename
    only once. If GitHub says a branch has diverged, reconcile it without
-   force-pushing or deleting history. No remote changes have been made by Codex.
+   force-pushing or deleting history. No remote changes have been made by Codex. The in-app GitHub browser is
+   waiting for the student to sign in; the connected GitHub tools do not
+   provide a fork-creation operation.
 
 5. Submit your fork's URL through the Course Portal. Keep this repository
    for the next unit. Do not run the week-2 evaluation or replace its targets

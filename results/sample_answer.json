@@ -1,0 +1,21 @@
+{
+  "timestamp_utc": "2026-09-13T22:16:21.582416+00:00",
+  "model": "gemini-3.5-flash-lite",
+  "corpus": "campus_life",
+  "cited_sources": [
+    "admin_housing_lottery.txt"
+  ],
+  "question": "How are juniors and seniors ordered in the housing lottery?",
+  "refused": false,
+  "best_distance": 0.22497435764291485,
+  "threshold": 0.6,
+  "sources": [
+    "admin_housing_lottery.txt",
+    "admin_parking_permits.txt",
+    "advising_registration.txt",
+    "dining_the_atrium_followup.txt",
+    "housing_tamsin_court.txt"
+  ],
+  "prompt": "Documents:\n\n[from admin_housing_lottery.txt]\nOn the housing lottery\n\nThe housing lottery is not random in the way most people assume. Rising sophomores get a number drawn at random, but juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly. That means a senior who took summer courses reliably beats a senior who didn't. Numbers come out the second week of March and selection runs over four evenings.\n\n[from advising_registration.txt]\nRegistration and your adviser\n\nYou need an adviser hold lifted before you can register, and advisers get busy in the week before registration opens. Book two weeks out.\n\nRegistration times are staggered by credit hours, same as the housing lottery. Popular courses fill in the first two days.\n\n[from housing_tamsin_court.txt]\nTamsin Court — what it's actually like\n\nI lived here my sophomore year. Built 2021. Rooms are studio apartments with private kitchen and bathroom.\n\nThe good: the most independent housing on campus, and the only option with a full kitchen.\n\nThe bad: the most expensive tier by a wide margin, and isolating if you're new.\n\nLaundry costs in-unit washer-dryer. On noise: quiet, structurally — concrete floors between units.\n\n[from admin_parking_permits.txt]\nOn the parking permits\n\nStudent permits for the west lots go on sale in August and sell out in about three days. The east lot never sells out because it's a 12-minute walk. There is no waitlist — people who miss the window park on Verrill Street and walk in, which is legal but unmarked and confuses everyone.\n\n[from dining_the_atrium_followup.txt]\nRe: The Atrium\n\nAdding to what people have said about The Atrium. The wait figure of no queue matches what I've seen. If you're trying to eat between classes, go before 11:45 and it's a different building entirely.\n\nAlso worth saying: picked clean by 1:15 and not restocked again until the next morning. Nobody tells you this at orientation.\n\n---\n\nQuestion: How are juniors and seniors ordered in the housing lottery?\n\nAnswer using only the documents above, and name the file you used.",
+  "answer": "Juniors and seniors are ordered by accumulated credit hours first, with ties broken randomly (`admin_housing_lottery.txt`)."
+}

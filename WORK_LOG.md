@@ -46,3 +46,21 @@ there must be no artificial trailing fragment or overlap-only chunk.
   Course Portal submission is claimed. SUBMISSION_CHECKLIST.md names the
   remaining steps. capture_sample.py can save the actual answer after key setup.
 - RUNNING.md and all provided corpus documents were left unchanged.
+
+## Live Gemini validation — September 13, 2026
+
+The student added the API key privately to `.env`. All 10 environment checks
+now pass, including real embeddings, the vector store, and a live response
+from `gemini-3.5-flash-lite`. `capture_sample.py` produced this real answer:
+
+> Juniors and seniors are ordered by accumulated credit hours first, with ties
+> broken randomly (`admin_housing_lottery.txt`).
+
+Codex opened that document and verified both claims against its text. The
+answer and source line are saved in README.md; the full application result
+is saved in results/sample_answer.json. This resolves the earlier missing-key
+blocker; the historical no-key verification remains as a record of setup.
+
+GitHub fork creation is waiting for browser sign-in. The GitHub connector is
+connected but has no fork-creation operation. Student review of the criteria
+and AI reflection remains pending, and nothing has been submitted to the portal.
