@@ -1,246 +1,143 @@
 # The Unofficial Guide
 
-<!-- Replace this line with your name and which corpus you picked. -->
+Corpus: `campus_life` · Prepared with Codex assistance
 
-> **This file is your submission.** Fill it in as you go — most sections get
-> written during the milestone that produces them, not at the end.
->
-> How the starter works, and every command you'll need, is in `RUNNING.md`.
-> Leave that file alone.
->
-> **Paste everything as text.** No screenshots, no video. A typed table gets
-> full credit; a picture of the same table gets none, because the grader can't
-> read it.
->
-> Delete these instruction blocks as you replace them. The `<!-- -->` comments
-> are notes to you and don't show up when the page renders — you can leave them
-> or remove them.
-
----
-
-# Week 1
+**Status:** Local implementation in progress. A private Gemini API key, a
+student review of the criteria and AI reflection, and a personal GitHub fork
+are still needed before submission. See `WORK_LOG.md` for the actual work
+history. No stretch features are claimed.
 
 ## What This Does
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
+The Unofficial Guide searches 88 fictional student posts supplied by CodePath.
+It handles questions about dining waits, housing, laundry, study rooms, and
+campus administrative rules. It retrieves evidence with local embeddings and
+Chroma, rejects distant matches before a model call, and asks Gemini to answer
+only from retrieved documents with filenames. These course documents are
+practice material, not verified advice about an actual university.
 
-     Milestone 5. -->
+On this Windows machine, the virtual environment is already in `.venv`.
+Run these commands from the project folder:
+
+```powershell
+.\.venv\Scripts\python.exe -X utf8 app.py index
+.\.venv\Scripts\python.exe -X utf8 app.py retrieve "How are juniors and seniors ordered in the housing lottery?"
+.\.venv\Scripts\python.exe -X utf8 app.py ask "How are juniors and seniors ordered in the housing lottery?"
+```
+
+Retrieval runs without a key. For generated answers, privately replace the
+placeholder in `.env` with your Gemini key and run `python test.py` inside
+the virtual environment. On a new machine, follow `RUNNING.md` to create the
+environment and install `requirements.txt`. Never commit `.env`.
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Function:** `chunker.py::split_documents`  
+**Chunk size:** 450 characters, a soft limit including the title.  
+**Overlap:** Up to 100 characters of complete trailing sentences, when they
+fit alongside the next sentence. Titles are repeated separately.
 
-<!-- What about YOUR documents made you pick these numbers? Short posts and
-     long sectioned guides don't want the same chunking, and "800 seemed
-     reasonable" earns nothing. Point at something you noticed when you read
-     the documents in Milestone 1.
+The starter produced 88 chunks from 88 posts at its original 800/120 settings:
+average 317 characters, shortest 178, longest 549. Reading the laundry and
+dining posts showed that prices, payment rules, and timing caveats belong
+together. A 450-character limit leaves the typical 317-character post intact
+while splitting the three longest housing posts into complete sentences.
 
-     If you changed your mind partway through, say so and say why. That's worth
-     more than pretending you got it right first time.
+Long posts repeat their title so a later chunk still identifies its building.
+Sentence overlap is variable, including zero when no complete sentence fits;
+it never copies an arbitrary half-sentence. An unusually long sentence may
+exceed the soft limit to preserve its meaning. This lightweight sentence
+heuristic suits these documents but can misread abbreviations in other corpora.
+Rebuild the index if you change this strategy.
 
-     Milestone 3. -->
+Measured custom output: 91 chunks, 309 characters on average (shortest 159, longest 432), produced by chunker.py::split_documents.
 
 ## Sample Chunks
 
-<!-- Five chunks, pasted as text. Label each one and name the file it came from
-     AND the function that produced it — the grader checks your code against
-     what you claim here.
+These are the actual five samples from `python app.py chunks -n 5`.
 
-     `python app.py chunks -n 5` prints all three for you. Copy them straight
-     across.
+**Chunk 1** — source: `admin_add_drop_deadline.txt#0` — produced by: `chunker.py::split_documents`
 
-     Milestone 3. -->
+```text
+On the add/drop deadline
 
-**Chunk 1** — source: `` — produced by: ``
-
-```
+You can add a course through the end of the second week. Dropping is a longer window — through the end of week six — but a drop after week two shows as a W on your transcript. Nothing anywhere on the registrar's site says this plainly, and students find out from each other.
 ```
 
-**Chunk 2** — source: `` — produced by: ``
+**Chunk 2** — source: `course_biol_160_exams.txt#0` — produced by: `chunker.py::split_documents`
 
-```
-```
+```text
+BIOL 160 Cell Biology — assessment
 
-**Chunk 3** — source: `` — produced by: ``
+Four unit tests and a cumulative final. Not curved.
 
-```
-```
-
-**Chunk 4** — source: `` — produced by: ``
-
-```
+The unit tests come fast, roughly every three weeks; falling behind once is very hard to recover from.
 ```
 
-**Chunk 5** — source: `` — produced by: ``
+**Chunk 3** — source: `course_math_220_exams.txt#0` — produced by: `chunker.py::split_documents`
 
+```text
+MATH 220 Linear Algebra — assessment
+
+Two midterms and a cumulative final. Curved to a b- median.
+
+The problem sets are the course; the lectures make sense afterwards rather than during.
 ```
+
+**Chunk 4** — source: `dining_the_ridgeway_cafe.txt#0` — produced by: `chunker.py::split_documents`
+
+```text
+The Ridgeway Café
+
+Second-year here. Wait times: 10 to 15 minutes at 12:30, none after 2:00. The thing worth going for is the only place on campus with real espresso. The thing to know is that seating is tight; about 40 seats for a building of 900.
+
+Hours are 7:00am to 4:00pm weekdays only. Costs declining balance only, no meal swipes.
 ```
+
+**Chunk 5** — source: `housing_morrow_house.txt#0` — produced by: `chunker.py::split_documents`
+
+```text
+Morrow House — what it's actually like
+
+Just finished a year in this building. Built 1954, partially renovated 2008. Rooms are singles and doubles, hall bathrooms. The good: cheapest housing tier by about $900 a year, and the singles are real singles. The bad: known damp problem on the ground floor; two rooms were taken offline in 2024. Laundry costs $1.50 wash, $1.25 dry, coin or card.
+```
+
+The samples answer, respectively: when adding/dropping is allowed; how BIOL
+160 is assessed; how MATH 220 is assessed; when and how to eat at Ridgeway;
+and what Morrow House offers and what its drawbacks are. Each has a topic
+title and intact statements. This inspection is not the week-2 evaluation.
 
 ## Sample Answer
 
-<!-- One complete question and answer, pasted as text, with the source line
-     visible. Milestone 4. -->
+<!-- LIVE_SAMPLE_START -->
+**Live generated answer pending:** No valid Gemini key has been configured.
+A model answer has not been generated or verified; no invented answer is
+presented as program output here.
+<!-- LIVE_SAMPLE_END -->
 
-**Question:**
-
-**Answer:**
-
-```
-```
-
-**My relevance cutoff:**
-
-<!-- The number you set in config.py, and how you got there.
-
-     You ran five questions your corpus covers and the five in OUT_OF_SCOPE
-     that it clearly doesn't, and wrote down the best distance for each. What
-     did those two groups look like? Where was the gap? Put the actual numbers
-     here — the table below wants all ten rows.
-
-     Milestone 4. -->
-
-| Question | In corpus? | Best distance |
-|---|---|---|
-|  |  |  |
+<!-- CALIBRATION_START -->
+Relevance calibration pending. The starter cutoff is 0.6; it has not yet been
+selected from measured results for this chunker.
+<!-- CALIBRATION_END -->
 
 ## How I Used AI
 
-<!-- Two specific moments. For each: what you asked for, what came back, and
-     what you changed about it.
+**Disclosure:** This is an AI-assisted draft. The student asked Codex to work
+on the assignment and to choose suitable options. The student has not yet
+supplied a personal reflection or independently authored criteria 4 and 5.
+The following describes actual assistance rather than inventing student edits.
 
-     "I asked Claude to write the chunking function from my notes. It ignored
-     the overlap, so I added that myself" is the level of detail we're after.
-     "I used AI to help me code" is not.
+**1. Chunking implementation.** Codex read the starter and five campus posts,
+measured the original chunk sizes, and implemented a title-preserving sentence
+chunker with bounded sentence overlap. It kept ordinary posts intact and
+changed the long-post behavior instead of claiming that the original chunker
+split all posts badly. The student should inspect the five examples and explain
+which design choices they accept or change.
 
-     Milestone 5. -->
-
-**1.**
-
-**2.**
-
-<!-- ── Stretch features ─────────────────────────────────────────────────────
-     Doing one? Say so here BEFORE you start. A feature this README never
-     claims earns nothing.
-     ───────────────────────────────────────────────────────────────────────── -->
-
----
-
-# Week 2
-
-<!-- These sections get ADDED to what's already above. Don't delete or rewrite
-     week 1 — the point is that someone can see what you said before you knew
-     how it went. -->
-
-## Run Log — Before
-
-<!-- Your five criteria, three runs each. `python run_eval.py --label before`
-     runs the questions, puts the OUT_OF_SCOPE ones through the gate, and
-     writes it all into results/ for you. Targets come from criteria.md; the
-     verdict column is your call.
-
-     Criterion 3 is measured in one deterministic pass rather than three, so
-     the same number goes in all three run columns. That's correct, not lazy.
-
-     Milestone 1. -->
-
-| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
-|---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
-
-<!-- Underneath, paste the REAL output for each criterion from one of your
-     runs — the actual text your system produced, not a description of it.
-     Name the file and function that produced it. -->
-
-## Verdicts
-
-<!-- MET or MISSED for each of the five, against the target you wrote last
-     week — not a new one. Plus a sentence on how you decided. That sentence
-     matters most where it was close.
-
-     If your target said 4 of 5 and your runs came out 4, 3, 4, that's a MISS.
-     The target has to hold, not show up occasionally.
-
-     Milestone 2. -->
-
-| # | Criterion | Verdict | How I decided |
-|---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
-
-## Diagnoses
-
-<!-- For each miss: which stage caused it, and how. The stage alone isn't
-     enough — you need the mechanism.
-
-     Not a diagnosis: "Question 3 didn't work."
-     A diagnosis:     "Question 3 asks about laundry costs. The answer is in
-                       one sentence that got split across two chunks, so
-                       neither chunk on its own contains it."
-
-     The five stages: loading → chunking → embedding → retrieval → generation.
-
-     Look for a pattern. If three misses all ask about numbers, that's one
-     problem, not three.
-
-     Missed nothing? Say so, then say honestly whether your targets were set
-     low, and which one you'd tighten and to what.
-
-     Milestone 3. -->
-
-## The Improvement
-
-**What I changed:**
-
-**Why I picked it:**
-
-<!-- Connect it to a specific diagnosis above in one sentence. If you can't,
-     you picked a fix because it sounded impressive. -->
-
-### Run Log — After
-
-<!-- Same format, same five criteria, three runs each.
-     `python run_eval.py --label after` -->
-
-| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
-|---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
-
-**Did it help?**
-
-<!-- Say plainly whether it did, and how you know. If it made things worse,
-     say that — a change that backfired, honestly reported, earns full credit
-     and is more interesting than one that worked. What matters is that you can
-     tell.
-
-     Milestone 4. -->
-
-## What's Still Broken
-
-<!-- For each criterion still missed after your fix: what you'd do about it,
-     and why you stopped where you did.
-
-     "I ran out of time" is fine if it's true. Pretending nothing is left is
-     not.
-
-     Milestone 5. -->
-
-## What I'd Do Differently
-
-<!-- Knowing what you know now — which of your five criteria would you write
-     differently, and why?
-
-     Milestone 5. -->
+**2. Reproducible verification.** Codex installed the dependencies, wrote
+boundary and gate tests, and separated local retrieval measurements from live
+model verification. One overlap test initially used a budget large enough to
+fit an extra sentence; Codex corrected the test budget so it actually exercised
+the intended split. The missing API key is recorded instead of treating a
+mocked response as a real sample answer. The student should replace this draft
+with their own account of what they reviewed and changed.

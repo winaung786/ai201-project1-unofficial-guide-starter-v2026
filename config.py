@@ -27,8 +27,8 @@ CORPUS = os.getenv("AI201_CORPUS", "campus_life")
 # These are deliberately plain, generic numbers. Milestone 3 is where you
 # replace them with numbers that fit the documents you actually read.
 
-CHUNK_SIZE = 800        # characters per chunk
-CHUNK_OVERLAP = 120     # characters shared between neighbouring chunks
+CHUNK_SIZE = 450        # soft character limit, including the repeated title
+CHUNK_OVERLAP = 100     # at most this many characters of whole-sentence overlap
 
 
 # ─── Retrieval (Milestone 4) ─────────────────────────────────────────────────
@@ -108,3 +108,4 @@ def collection_name(name: str | None = None, variant: str = "default") -> str:
     if not cleaned[-1].isalnum():
         cleaned = f"{cleaned}0"
     return cleaned[:63].rstrip("_-") or "collection"
+
