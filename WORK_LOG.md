@@ -102,3 +102,18 @@ branch. The working `main` branch now tracks the GitHub history. Credentials,
 local model caches, the virtual environment, and the local vector database
 are excluded from publication. Portal submission was intentionally left to
 the student. The AI-assisted authorship is disclosed in the report and criteria.
+
+## Assignment-rule audit — September 14, 2026
+
+The student asked for compliance with the full assignment, not just working
+software. Codex rechecked the pasted requirements and corrected the completion
+status: student authorship of criteria 4–5 has not been fulfilled. Original
+criteria remain unchanged while the student's wording is requested.
+
+README samples, distances, and live answer were matched against the actual
+code and saved evidence. The default samples are all #0 and selected by
+stride, not randomly. ASSIGNMENT_REVIEW.md supplies the targeted commands,
+a solo review of the current criteria, chunk discussion, and cutoff tradeoffs.
+It also records the actual late API-key/fork setup instead of implying that
+the original starter ran live before code changes. No dates or past events
+were rewritten, and no classmate discussion or new evaluation was fabricated.

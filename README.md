@@ -4,10 +4,12 @@ Win Aung · Corpus: `campus_life` · Prepared with Codex assistance
 
 Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starter-v2026
 
-**Status:** The complete pipeline has produced a real sourced answer. All 10
-environment checks and 10 regression tests pass. Five acceptance targets and
-five fixed questions are recorded, along with actual chunks and calibration
-evidence. Course Portal submission is tracked in `SUBMISSION_CHECKLIST.md`.
+**Status:** The technical implementation and required README evidence are
+complete, and real calibration and a sourced model answer are recorded.
+Criteria 4–5 are still AI-authored drafts: student-authored replacements are
+required to meet the assignment's authorship rule. See [Assignment review](ASSIGNMENT_REVIEW.md)
+for the requirement check, solo review, and recorded milestone-order limitations.
+Passing development tests is not the grading standard for this unit.
 No stretch features are claimed.
 
 ## What This Does
@@ -57,7 +59,11 @@ Measured custom output: 91 chunks, 309 characters on average (shortest 159, long
 
 ## Sample Chunks
 
-These are the actual five samples from `python app.py chunks -n 5`.
+These are the actual five samples from `python app.py chunks -n 5`. The command
+uses a deterministic stride, not random sampling. All five printed examples
+are first pieces (#0); they do not exercise the later pieces of split posts.
+See [split-post inspection commands](ASSIGNMENT_REVIEW.md#inspecting-the-split-posts)
+for a targeted check of those boundaries.
 
 **Chunk 1** — source: `admin_add_drop_deadline.txt#0` — produced by: `chunker.py::split_documents`
 

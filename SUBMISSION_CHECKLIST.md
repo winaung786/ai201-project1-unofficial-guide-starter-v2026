@@ -4,9 +4,10 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 
 - Complete: document ingestion, custom chunks, embeddings, vector search,
   relevance gate, grounded prompt, and command-line interface.
-- Complete: five fixed questions and five acceptance targets with rationales;
-  criteria 4–5 are explicitly disclosed as AI-assisted. Their original
-  numerical targets remain unchanged from the pre-calibration commit.
+- Present: five fixed questions and five numbered targets with rationales.
+- Not yet fulfilled: student authorship of criteria 4–5. The current AI drafts
+  are preserved, and the student has been asked for their own targets and
+  reasons. Any new wording must be recorded as a later revision, not backdated.
 - Complete: README with the five required sections, five real sample chunks,
   ten real calibration distances, and a real sourced Gemini answer.
 - Complete: 10 regression tests, 10 environment checks, and verification that
@@ -23,7 +24,8 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 
 The AI-use report describes the actual assistance and student actions. It does
 not invent independent authorship of the criteria or student code edits. The
-assignment's student-authorship requirement still merits the student's review.
+assignment's student-authorship requirement remains unfulfilled until the
+student provides their own criteria; disclosure alone does not satisfy it.
 
 Keep this same repository for the next unit. The week-2 repeated evaluation
 has not been run or fabricated.
@@ -39,3 +41,6 @@ To reproduce locally from this folder on Windows:
 
 The private key remains in `.env`, which Git ignores. `RUNNING.md` contains
 instructions for recreating the environment on another machine.
+
+Detailed evidence, solo checks, and milestone-order limitations are recorded
+in [ASSIGNMENT_REVIEW.md](ASSIGNMENT_REVIEW.md).
