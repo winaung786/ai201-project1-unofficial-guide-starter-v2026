@@ -25,3 +25,24 @@ posts intact and split the few longest posts at sentence boundaries. Carry
 up to 100 characters of complete trailing sentences across a split when they
 fit with the next sentence. A sentence longer than the budget stays intact;
 there must be no artificial trailing fragment or overlap-only chunk.
+
+## Implementation and calibration completed locally
+
+- Custom chunker: 91 chunks, average 309 characters, minimum 159, maximum 432.
+  Five actual samples are in README.md, with source labels and function names.
+- The questions and draft criteria were committed before retrieval calibration.
+- Built the real ONNX/Chroma index. Covered questions scored 0.179727–0.372583;
+  unrelated questions scored 0.824593–0.934011. Kept top-k 5 and chose 0.6,
+  approximately the midpoint of the measured gap.
+- Read all five results for each of the first three questions, including
+  irrelevant lower-ranked building matches. Strengthened grounding instructions
+  to preserve entities, exceptions, and per-claim source attribution.
+- All five unrelated questions were refused by the real application pipeline;
+  total generation calls: 0. Raw evidence is in results/local_verification.json.
+- Ten regression tests pass; package dependency checks pass. The environment
+  check passes eight checks, fails the missing-placeholder API key check, and
+  skips the live model call. The model identifier has not been live-verified.
+- No sample model answer, student-authored reflection, remote fork, push, or
+  Course Portal submission is claimed. SUBMISSION_CHECKLIST.md names the
+  remaining steps. capture_sample.py can save the actual answer after key setup.
+- RUNNING.md and all provided corpus documents were left unchanged.

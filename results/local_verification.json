@@ -1,0 +1,52 @@
+{
+  "kind": "Real local pipeline verification; no live generated answer",
+  "out_of_scope": [
+    {
+      "question": "What is the capital of Mongolia?",
+      "refused": true,
+      "best_distance": 0.8245933076408182,
+      "threshold": 0.6,
+      "sources": [],
+      "prompt": null,
+      "answer": "I don't have enough information about that."
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "refused": true,
+      "best_distance": 0.9340105994476241,
+      "threshold": 0.6,
+      "sources": [],
+      "prompt": null,
+      "answer": "I don't have enough information about that."
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "refused": true,
+      "best_distance": 0.8858601822019508,
+      "threshold": 0.6,
+      "sources": [],
+      "prompt": null,
+      "answer": "I don't have enough information about that."
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "refused": true,
+      "best_distance": 0.8442317491707352,
+      "threshold": 0.6,
+      "sources": [],
+      "prompt": null,
+      "answer": "I don't have enough information about that."
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "refused": true,
+      "best_distance": 0.8959977592521154,
+      "threshold": 0.6,
+      "sources": [],
+      "prompt": null,
+      "answer": "I don't have enough information about that."
+    }
+  ],
+  "model_calls": 0,
+  "in_scope_generation_blocker": "No valid GEMINI_API_KEY found; the key is missing or still a placeholder.\nCopy .env.example to .env and paste your key in, then try again. `python test.py` will confirm it's working."
+}

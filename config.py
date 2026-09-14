@@ -24,8 +24,8 @@ CORPUS = os.getenv("AI201_CORPUS", "campus_life")
 
 
 # ─── Chunking (Milestone 3) ──────────────────────────────────────────────────
-# These are deliberately plain, generic numbers. Milestone 3 is where you
-# replace them with numbers that fit the documents you actually read.
+# Campus posts average 317 characters. Preserve short posts and split the
+# few long ones at sentences, repeating their title (see README.md).
 
 CHUNK_SIZE = 450        # soft character limit, including the repeated title
 CHUNK_OVERLAP = 100     # at most this many characters of whole-sentence overlap
@@ -43,7 +43,7 @@ TOP_K = 5               # how many chunks to pull back per question
 # 0.6 is a reasonable starting point, not a right answer. Milestone 4 has you
 # measure your own two groups of distances and put the cutoff in the gap.
 # Most corpora land somewhere between 0.45 and 0.75.
-THRESHOLD = 0.6
+THRESHOLD = 0.6  # measured gap: covered <= 0.373; unrelated >= 0.825
 
 
 # ─── Models ──────────────────────────────────────────────────────────────────

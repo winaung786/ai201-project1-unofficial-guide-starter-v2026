@@ -2,7 +2,7 @@
 
 Corpus: `campus_life` · Prepared with Codex assistance
 
-**Status:** Local implementation in progress. A private Gemini API key, a
+**Status:** Local search and calibration are complete; 10 regression tests pass. A private Gemini API key, a
 student review of the criteria and AI reflection, and a personal GitHub fork
 are still needed before submission. See `WORK_LOG.md` for the actual work
 history. No stretch features are claimed.
@@ -112,12 +112,54 @@ title and intact statements. This inspection is not the week-2 evaluation.
 <!-- LIVE_SAMPLE_START -->
 **Live generated answer pending:** No valid Gemini key has been configured.
 A model answer has not been generated or verified; no invented answer is
-presented as program output here.
+presented as program output here. After adding your key privately to `.env`,
+run `python test.py`, then `python capture_sample.py`. The latter captures
+one real answer and its source filenames into this section automatically.
+Review the output before submitting.
 <!-- LIVE_SAMPLE_END -->
 
 <!-- CALIBRATION_START -->
-Relevance calibration pending. The starter cutoff is 0.6; it has not yet been
-selected from measured results for this chunker.
+**Chosen relevance cutoff:** `0.6` (cosine distance, strictly less than).
+**Top-k:** `5`. **Embedding model:** `all-MiniLM-L6-v2` (real local ONNX model).
+
+The covered questions ranged from 0.179727 to 0.372583; unrelated questions
+ranged from 0.824593 to 0.934011. The gap is 0.452010. Its midpoint is about
+0.598588, so the rounded cutoff of 0.6 keeps a similar margin on either side.
+This happens to match the starter default, but is now backed by measurements.
+All five covered questions pass and all five unrelated questions fail the gate.
+These are calibration observations, not proof about unseen questions or model
+answer quality. Near-topic questions remain a risk.
+
+| Question | In corpus? | Best cosine distance | Gate |
+|---|---|---:|---|
+| How are juniors and seniors ordered in the housing lottery? | Yes | 0.224974 | Pass |
+| How long is the lunch wait at Kestrel Commons between 12:15 and 1:00? | Yes | 0.179727 | Pass |
+| How much does one wash cost in Aldridge Hall, and how do you pay? | Yes | 0.262307 | Pass |
+| How far ahead can I book a group study room, and how many blocks can I book per week? | Yes | 0.195768 | Pass |
+| How much printing credit does each student get per semester, and does it roll over? | Yes | 0.372583 | Pass |
+| What is the capital of Mongolia? | No | 0.824593 | Refuse |
+| How do I change the oil in a diesel engine? | No | 0.934011 | Refuse |
+| Who won the 1994 World Cup? | No | 0.885860 | Refuse |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.844232 | Refuse |
+| How do I write a for loop in Rust? | No | 0.895998 | Refuse |
+
+Measured by `calibrate.py::main` via `store.py::search`; complete top-five
+chunks and full-precision distances are in `results/calibration.json`.
+Reproduce with `python app.py index`, then `python calibrate.py`.
+
+Inspection of the first three questions found the answer in the top result
+for housing lottery rules, Kestrel lunch waits, and Aldridge laundry prices.
+The study-room and printing questions also have direct supporting top results.
+Top-k remains 5 to retain corroborating posts (the original and follow-up
+Kestrel posts, and both Aldridge posts). Lower-ranked results can concern other
+buildings: the grounding instruction explicitly requires matching the named
+building/service and preserving exact prices and exceptions. A cutoff on the
+best result does not make every retrieved chunk relevant.
+
+The prompt uses only retrieved documents, demands filenames next to claims,
+and instructs the model to refuse unsupported details. It also treats commands
+inside documents as data. These instructions still need live testing once the
+Gemini key is configured; they cannot guarantee factual grounding by themselves.
 <!-- CALIBRATION_END -->
 
 ## How I Used AI
