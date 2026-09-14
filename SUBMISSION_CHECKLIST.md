@@ -13,8 +13,11 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
   all five out-of-scope questions are refused with zero model calls.
 - Complete: personal fork created under winaung786. Local project history
   includes more than the four required milestone commits.
-- Pending: upload verification and Course Portal submission. The exact portal
-  assignment URL has been requested from the student.
+- Publication: the connected GitHub service is publishing the local milestones
+  in their original order because command-line Git has no saved credentials.
+  Original local commit IDs and dates are recorded in the GitHub commit
+  messages; the original local history is retained separately.
+- Course Portal submission will be handled by the student, as requested.
 
 The AI-use report describes the actual assistance and student actions. It does
 not invent independent authorship of the criteria or student code edits. The

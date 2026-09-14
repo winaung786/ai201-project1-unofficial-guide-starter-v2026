@@ -72,3 +72,19 @@ The README now gives the repository URL and a finished, factual AI-use account,
 including the student's key setup and GitHub sign-in. The numerical criteria
 and original history are unchanged; AI authorship is explicitly disclosed.
 The Course Portal URL has been requested so final submission can be completed.
+
+The student clarified that Codex should finish the assignment and upload the
+repository, while the student will handle Course Portal submission personally.
+No portal submission will be performed by Codex.
+
+## Publishing through the connected GitHub service
+
+Command-line Git could not authenticate without another interactive login.
+The connected GitHub service has write access, so the local milestone changes
+will be replayed in their original order, including criteria before results.
+The new GitHub commits have publication timestamps and include the original
+local commit IDs and authored dates in their messages. They are not being
+backdated. The original local commits are retained on a separate branch after
+synchronizing the checkout with the published main branch.
+
+Portal submission remains the student's responsibility, by explicit request.
