@@ -1,5 +1,13 @@
 # Assignment review — September 14, 2026
 
+**Later revision on September 14:** Criteria 4–5 were subsequently revised at the
+student's request through discussion with Codex. Criterion 4 now checks all six
+pieces of the three split posts; criterion 5 explicitly uses original documents
+and counts refusals as failures. Authorship notes reflect the AI assistance.
+See [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md) for original wording and provenance.
+The review below records the state before that revision; references to unchanged
+original criteria or pending wording describe that earlier state.
+
 This review uses the assignment pasted by the student on September 14 and the
 current repository. It is a check of structure, documentation, and honesty,
 not a claim about a grade or a substitute for the next unit's evaluation.

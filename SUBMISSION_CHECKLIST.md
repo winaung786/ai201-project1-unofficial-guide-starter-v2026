@@ -5,9 +5,9 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 - Complete: document ingestion, custom chunks, embeddings, vector search,
   relevance gate, grounded prompt, and command-line interface.
 - Present: five fixed questions and five numbered targets with rationales.
-- Not yet fulfilled: student authorship of criteria 4–5. The current AI drafts
-  are preserved, and the student has been asked for their own targets and
-  reasons. Any new wording must be recorded as a later revision, not backdated.
+- Revised: criteria 4–5 after discussion with Codex; original wording and the
+  later revision date are preserved in CRITERIA_HISTORY.md. The revised criteria
+  remain AI-assisted; independent student authorship is not claimed.
 - Complete: README with the five required sections, five real sample chunks,
   ten real calibration distances, and a real sourced Gemini answer.
 - Complete: 10 regression tests, 10 environment checks, and verification that

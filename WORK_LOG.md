@@ -117,3 +117,16 @@ a solo review of the current criteria, chunk discussion, and cutoff tradeoffs.
 It also records the actual late API-key/fork setup instead of implying that
 the original starter ran live before code changes. No dates or past events
 were rewritten, and no classmate discussion or new evaluation was fabricated.
+
+
+## Criteria revision — September 14, 2026
+
+At the student's request, Codex applied the criterion wording developed in the
+conversation. Criterion 4 now targets all six chunks from the three split posts,
+checking sentence boundaries and source separation. Criterion 5 keeps the 4-of-5
+standard, names the original documents as the reference, and explicitly counts
+refusals as failures for covered questions. README and criteria authorship notes
+now describe the discussion, AI-proposed wording, and student-requested revisions.
+Original criteria are preserved in CRITERIA_HISTORY.md; the revisions are not
+backdated to the original pre-calibration milestone. This documentation change
+does not claim a new answer evaluation or independent student authorship.

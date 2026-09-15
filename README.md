@@ -6,8 +6,10 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 
 **Status:** The technical implementation and required README evidence are
 complete, and real calibration and a sourced model answer are recorded.
-Criteria 4–5 are still AI-authored drafts: student-authored replacements are
-required to meet the assignment's authorship rule. See [Assignment review](ASSIGNMENT_REVIEW.md)
+Criteria 4–5 have been revised through discussion with Codex, with the original
+targets preserved in [Criteria history](CRITERIA_HISTORY.md). Their AI assistance
+is disclosed below; independent student authorship is not claimed. See
+[Assignment review](ASSIGNMENT_REVIEW.md)
 for the requirement check, solo review, and recorded milestone-order limitations.
 Passing development tests is not the grading standard for this unit.
 No stretch features are claimed.
@@ -179,11 +181,13 @@ the five-question repeated answer evaluation belongs to the next unit.
 
 ## How I Used AI
 
-**Disclosure:** Codex helped implement the project and draft this report, test
-questions, and acceptance criteria 4–5. Those criteria are AI-assisted rather
-than independently student-authored; the assignment asks for student-authored
-criteria. This disclosure does not claim otherwise. The numerical targets
-were saved before retrieval calibration and have not been lowered afterward.
+**Disclosure:** Codex helped implement the project and draft this report.
+Criteria 1–3 come from the assignment; the questions and rationales for 1–3 were
+drafted with Codex. Criteria 4–5 were revised through discussion with Codex about
+the chunks and source documents: Codex proposed wording, and I requested revisions
+and adoption. They are AI-assisted, not independently student-written. The
+original criteria were saved before calibration; these revisions came afterward
+and are documented in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md).
 
 **1. Building and checking the chunker.** I gave Codex the assignment and asked
 it to work on the project, then asked it to choose suitable options. It read

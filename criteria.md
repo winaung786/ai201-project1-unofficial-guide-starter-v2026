@@ -3,12 +3,16 @@
 Corpus: `campus_life`. Questions and expected phrases are recorded in
 `questions.py` before retrieval calibration or answer evaluation.
 
-**Authorship note:** Criteria 1–3 come from the assignment. Codex drafted the
-questions, rationales, and criteria 4–5 after being asked to choose suitable
-targets. Criteria 4–5 are AI-assisted, not independently student-authored;
-the assignment asks for student-authored criteria. These targets were recorded
-before calibration and are preserved for the next unit. This file defines
-success rather than claiming that every target has already passed.
+**Authorship note:** Criteria 1–3 come from the assignment. The questions and
+rationales for criteria 1–3 were drafted with Codex. Criteria 4–5 were revised
+through discussion with Codex about the chunks and source documents: Codex
+proposed wording, and I requested revisions and adoption. They are AI-assisted,
+not independently student-written.
+
+The original targets were recorded before calibration; revisions 4–5 below were
+made afterward on September 14, 2026. The original wording and reasons for the
+changes are preserved in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md). These are
+standards to test against, not claims that the system has already passed.
 
 ## 1. Retrieved chunks contain the answer
 
@@ -41,28 +45,31 @@ target tolerates one borderline match while requiring the code to block most
 unsupported questions before generation. Select the cutoff using measured
 distances later; do not lower this target after observing results.
 
-## 4. Chunks preserve complete statements
+## 4. Chunks preserve sentences and source boundaries
 
-All five chunks printed by `python app.py chunks -n 5` must include a topic
-title and at least one complete factual statement; none may begin or end with
-a sentence cut in half.
+When I run `python app.py chunks --from-doc FILENAME` for
+`housing_innisfree_hall.txt`, `housing_morrow_house.txt`, and
+`housing_old_brewhouse.txt`, all six resulting chunks must contain text from only
+their named source post and must not cut any sentence in half, compared against
+the originals in `corpora/campus_life/documents/`.
 
-**Why this target:** Posts contain prices, times, and payment rules that can
-become misleading when split mid-sentence. Requiring all five samples to be
-readable fits this short-post corpus. Compare each with its original document;
-a sample passes only if all three conditions hold.
+**Why this target:** I chose all six because these three posts actually get
+split, so checking every piece tests the places where a sentence could be cut.
+A chunk also fails if it mixes text from different posts.
 
 ## 5. Cited sources support the claims
 
-For at least 4 of the 5 in-corpus test answers, every factual claim must be
-supported by a document explicitly cited in that answer, including the correct
-building or service name and any stated prices, times, or limits.
+For at least 4 of my 5 test questions in `questions.py`, the answer must name the
+correct place or service, give the correct numbers where needed, and cite source
+files that support every factual claim, checked against the original documents
+in `corpora/campus_life/documents/`.
 
-**Why this target:** Similar laundry and dining posts make an answer about the
-wrong place a realistic failure. Four fully supported answers is more demanding
-than merely finding a filename. Check every claim against the cited files; an
-unsupported claim, wrong entity, or refusal fails that answer. This requires
-human review, not just a match against the `expects` phrase.
+**Why this target:** I chose 4 of 5 because similar posts could cause an
+occasional mix-up, but more than one wrong answer would make the guide hard to
+trust. A refusal counts as a failure because the documents cover these questions;
+the `expects` phrase is only a quick first check, and the original document is
+the reference for deciding whether an answer is correct.
 
-In week 2, preserve these targets and add justified revisions underneath them.
-Do not erase an original target because a result missed it.
+In week 2, preserve these targets and record any justified revisions with their
+original wording in `CRITERIA_HISTORY.md`; do not erase a target because a result
+missed it.
