@@ -173,8 +173,12 @@ building/service and preserving exact prices and exceptions. A cutoff on the
 best result does not make every retrieved chunk relevant.
 
 The prompt uses only retrieved documents, demands filenames next to claims,
-and instructs the model to refuse unsupported details. It also treats commands
-inside documents as data. The housing-lottery sample has now been tested live and checked against its
+and instructs the model to refuse unsupported details. The application also
+checks the returned answer: a model refusal is reported as a refusal, and a
+substantive answer without a retrieved filename is refused instead of being
+presented as grounded. Cited sources and all retrieved sources remain separate
+in the structured result. The prompt also treats commands inside documents as
+data. The housing-lottery sample has now been tested live and checked against its
 source. This single example does not establish grounding for every question;
 the five-question repeated answer evaluation belongs to the next unit.
 <!-- CALIBRATION_END -->

@@ -11,6 +11,7 @@ import config
 import gate
 from chunker import split_documents
 from ingest import Document, clean_text, load_documents
+from serve import app as web_app
 from store import Result
 
 
@@ -89,6 +90,7 @@ class GateTests(unittest.TestCase):
                 self.assertTrue(outcome["refused"])
                 self.assertEqual(outcome["answer"], gate.REFUSAL)
                 self.assertEqual(outcome["sources"], [])
+                self.assertEqual(outcome["refusal_reason"], "relevance_gate")
 
     def test_relevant_question_uses_retrieved_evidence(self):
         hit = self.result(0.25)
@@ -97,7 +99,61 @@ class GateTests(unittest.TestCase):
         model.assert_called_once_with("How much printing credit?", [hit])
         self.assertFalse(outcome["refused"])
         self.assertIn("printing.txt", outcome["answer"])
+        self.assertEqual(outcome["sources"], ["printing.txt"])
+        self.assertEqual(outcome["retrieved_sources"], ["printing.txt"])
+        self.assertIsNone(outcome["refusal_reason"])
         self.assertIn(hit.text, outcome["prompt"])
+
+    def test_uncited_model_answer_is_refused(self):
+        hit = self.result(0.25)
+        with patch("store.search", return_value=[hit]), patch(
+            "generate.answer_from_chunks", return_value="Each student gets thirty dollars."
+        ) as model:
+            outcome = app.ask_pipeline("How much printing credit?", threshold=0.6)
+
+        model.assert_called_once_with("How much printing credit?", [hit])
+        self.assertTrue(outcome["refused"])
+        self.assertEqual(outcome["answer"], gate.REFUSAL)
+        self.assertEqual(outcome["sources"], [])
+        self.assertEqual(outcome["retrieved_sources"], ["printing.txt"])
+        self.assertEqual(outcome["refusal_reason"], "missing_source_citation")
+
+    def test_model_refusal_sets_refused_flag(self):
+        hit = self.result(0.25)
+        with patch("store.search", return_value=[hit]), patch(
+            "generate.answer_from_chunks", return_value=gate.REFUSAL
+        ):
+            outcome = app.ask_pipeline("A near-topic unsupported question", threshold=0.6)
+
+        self.assertTrue(outcome["refused"])
+        self.assertEqual(outcome["answer"], gate.REFUSAL)
+        self.assertEqual(outcome["sources"], [])
+        self.assertEqual(outcome["retrieved_sources"], ["printing.txt"])
+        self.assertEqual(outcome["refusal_reason"], "model_refusal")
+
+
+class ServeTests(unittest.TestCase):
+    def test_model_refusal_is_reported_consistently_over_http(self):
+        hit = Result(
+            "Printing credit is $30.",
+            "printing.txt",
+            "printing.txt#0",
+            0.25,
+            "chunker.py::split_documents",
+        )
+        with patch("store.search", return_value=[hit]), patch(
+            "generate.answer_from_chunks", return_value=gate.REFUSAL
+        ):
+            response = web_app.test_client().post(
+                "/ask", json={"question": "A near-topic unsupported question"}
+            )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.get_json()
+        self.assertTrue(payload["refused"])
+        self.assertEqual(payload["refusal_reason"], "model_refusal")
+        self.assertEqual(payload["sources"], [])
+        self.assertEqual(payload["retrieved_sources"], ["printing.txt"])
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
   remain AI-assisted; independent student authorship is not claimed.
 - Complete: README with the five required sections, five real sample chunks,
   ten real calibration distances, and a real sourced Gemini answer.
-- Complete: 10 regression tests, 10 environment checks, and verification that
+- Complete: 13 regression tests, 10 environment checks, and verification that
   all five out-of-scope questions are refused with zero model calls.
 - Complete: personal fork created under winaung786. Local project history
   includes more than the four required milestone commits.

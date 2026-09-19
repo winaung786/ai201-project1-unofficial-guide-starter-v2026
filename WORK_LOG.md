@@ -130,3 +130,15 @@ now describe the discussion, AI-proposed wording, and student-requested revision
 Original criteria are preserved in CRITERIA_HISTORY.md; the revisions are not
 backdated to the original pre-calibration milestone. This documentation change
 does not claim a new answer evaluation or independent student authorship.
+
+## Answer-validation fixes — September 18, 2026
+
+- The application now refuses a substantive model answer that does not cite at
+  least one filename from the retrieved evidence, rather than relying only on
+  the prompt to request citations.
+- A refusal returned by the model after the relevance gate passes is now marked
+  as refused in both the pipeline result and HTTP response.
+- Cited sources are reported separately from all retrieved sources. Thirteen
+  regression tests pass, including the citation and HTTP refusal cases.
+- These technical fixes do not resolve the assignment's student-authorship
+  requirement for criteria 4–5.

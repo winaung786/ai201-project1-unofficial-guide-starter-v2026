@@ -216,9 +216,11 @@ def ask_pipeline(
     outcome = {
         "question": question,
         "refused": not decision.passed,
+        "refusal_reason": "relevance_gate" if not decision.passed else None,
         "best_distance": decision.best_distance,
         "threshold": decision.threshold,
         "sources": [],
+        "retrieved_sources": sorted({r.source for r in results}),
         "prompt": None,
     }
 
@@ -231,8 +233,32 @@ def ask_pipeline(
         on_prompt(prompt)
 
     outcome["prompt"] = prompt
-    outcome["answer"] = answer_from_chunks(question, results)
-    outcome["sources"] = sorted({r.source for r in results})
+    answer = answer_from_chunks(question, results).strip()
+
+    # Passing the distance gate only means the evidence is close enough to
+    # show the model. The model can still decide that the excerpts do not
+    # support an answer; reflect that decision in the structured result.
+    if answer == gate.REFUSAL:
+        outcome["refused"] = True
+        outcome["refusal_reason"] = "model_refusal"
+        outcome["answer"] = gate.REFUSAL
+        return outcome
+
+    # A prompt instruction is not an enforcement mechanism. Never return a
+    # substantive answer as grounded unless it names at least one filename
+    # from the retrieved evidence. Refusing is safer than attaching a source
+    # that may not support the model's claims.
+    cited_sources = [
+        source for source in outcome["retrieved_sources"] if source in answer
+    ]
+    if not cited_sources:
+        outcome["refused"] = True
+        outcome["refusal_reason"] = "missing_source_citation"
+        outcome["answer"] = gate.REFUSAL
+        return outcome
+
+    outcome["answer"] = answer
+    outcome["sources"] = cited_sources
     return outcome
 
 
@@ -278,7 +304,7 @@ def _ask_one(
         return gate.REFUSAL
 
     print(f"\n{outcome['answer']}\n")
-    print(f"Sources retrieved: {', '.join(outcome['sources'])}\n")
+    print(f"Sources cited: {', '.join(outcome['sources'])}\n")
     return outcome["answer"]
 
 
