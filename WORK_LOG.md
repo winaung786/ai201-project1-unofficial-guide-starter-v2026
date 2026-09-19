@@ -142,3 +142,12 @@ does not claim a new answer evaluation or independent student authorship.
   regression tests pass, including the citation and HTTP refusal cases.
 - These technical fixes do not resolve the assignment's student-authorship
   requirement for criteria 4–5.
+
+## Authorship correction — September 18, 2026
+
+The student provided an authorship correction that supersedes the earlier
+descriptions in this work log. The student states that they wrote criteria 4–5
+on September 14 after reading their chunks and the Aldridge Hall and Morrow House
+documents. Claude pressure-tested the student's wording by asking how a grader
+would check it and pointing out weak spots; the student then added the comparison
+against original documents and the rule that a refusal counts as a failure.

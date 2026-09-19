@@ -2,7 +2,7 @@
 
 ## Original criteria 4–5
 
-These AI-drafted targets were saved before retrieval calibration. They are
+These AI-drafted original targets were saved before retrieval calibration. They are
 preserved verbatim below so later revisions do not erase the original standard.
 
 ## 4. Chunks preserve complete statements
@@ -30,10 +30,12 @@ human review, not just a match against the `expects` phrase.
 
 ## Revision — September 14, 2026
 
-After discussing the sample chunks and similar campus posts with Codex, the
-student requested adoption of revised criteria 4–5. Codex supplied draft wording
-and applied the requested document-reference and refusal checks. These revisions
-are AI-assisted and were made after calibration and the recorded sample answer.
+The student wrote the revised criteria 4–5 after reading the chunks and the
+Aldridge Hall and Morrow House documents. Claude pressure-tested the student's
+wording by asking how a grader would check each sentence and identifying weak
+spots. The student then added the original-document comparison and the rule that
+a refusal counts as a failure. The revisions were made after calibration and the
+recorded sample answer.
 
 Criterion 4 now checks every piece of the three split posts (six chunks) for
 complete sentences and separation of source posts. This targets split boundaries

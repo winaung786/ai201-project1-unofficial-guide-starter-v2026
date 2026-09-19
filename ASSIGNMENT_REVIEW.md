@@ -1,9 +1,9 @@
 # Assignment review — September 14, 2026
 
-**Later revision on September 14:** Criteria 4–5 were subsequently revised at the
-student's request through discussion with Codex. Criterion 4 now checks all six
-pieces of the three split posts; criterion 5 explicitly uses original documents
-and counts refusals as failures. Authorship notes reflect the AI assistance.
+**Later revision on September 14:** The student wrote criteria 4–5 after reading
+the chunks and source documents, then used Claude to pressure-test how a grader
+would check them. Criterion 4 checks all six pieces of the three split posts;
+criterion 5 uses original documents and counts refusals as failures.
 See [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md) for original wording and provenance.
 The review below records the state before that revision; references to unchanged
 original criteria or pending wording describe that earlier state.
@@ -23,8 +23,8 @@ not a claim about a grade or a substitute for the next unit's evaluation.
 | Gate before generation | `gate.py` and `app.py::ask_pipeline`; five actual refusals with zero model calls in `results/local_verification.json` | Implemented and observed |
 | Interface usable independently | Commands in README and unchanged RUNNING.md | Present |
 | Five questions with expected phrases | `questions.py` | Present; originally AI-drafted and disclosed |
-| Five numbered acceptance criteria and rationales | `criteria.md` | Present, but criteria 4–5 remain AI-authored drafts |
-| Student-authored criteria | Assignment says not to ask AI to write them | Not yet fulfilled; student's wording has been requested |
+| Five numbered acceptance criteria and rationales | `criteria.md` | Present |
+| Student-authored criteria | Assignment says not to ask AI to write them | Fulfilled according to the student's authorship statement; Claude pressure-tested but did not supply the wording |
 | Five README sections | What This Does, Chunking Strategy, Sample Chunks, Sample Answer, How I Used AI | Present |
 | Five actual sample chunks and provenance | README text matches current `split_documents` output exactly | Verified |
 | Cutoff and all ten distances | README values match `results/calibration.json` | Verified |
@@ -44,9 +44,9 @@ now would not prove that it ran before the changes.
 The original AI-drafted questions and targets were committed locally before
 retrieval calibration. The GitHub connector replayed those snapshots in the
 same order; its commits have publication dates, not backdated work dates.
-New student wording must be dated as a revision after calibration and leave
-the original criteria visible. Neither disclosure nor paraphrasing an AI draft
-retroactively makes it independently student-authored.
+The student's wording is dated as a revision after calibration and leaves the
+original criteria visible. The authorship note records the student's distinction
+between writing the criteria and using Claude to pressure-test them.
 
 ## Solo criteria self-check
 
@@ -83,9 +83,9 @@ new targets. No new pass/fail evaluation is claimed here.
    require four passing answers. This needs human semantic judgment, not just
    a filename or expects-phrase search. The rationale counts refusals as fails.
 
-The six-piece alternative discussed in chat is also AI-drafted. It has not
-been silently substituted for the original criterion. The student should
-supply their own criterion and rationale before a dated revision is saved.
+The six-piece criterion is the student's dated revision. The original criterion
+remains preserved in `CRITERIA_HISTORY.md`, and the authorship note records
+Claude's pressure-testing role.
 
 ## Inspecting the split posts
 

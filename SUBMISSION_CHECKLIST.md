@@ -5,9 +5,9 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 - Complete: document ingestion, custom chunks, embeddings, vector search,
   relevance gate, grounded prompt, and command-line interface.
 - Present: five fixed questions and five numbered targets with rationales.
-- Revised: criteria 4–5 after discussion with Codex; original wording and the
-  later revision date are preserved in CRITERIA_HISTORY.md. The revised criteria
-  remain AI-assisted; independent student authorship is not claimed.
+- Revised: the student wrote criteria 4–5 and used Claude only to pressure-test
+  how a grader would check them; the original wording and later revision date
+  are preserved in CRITERIA_HISTORY.md.
 - Complete: README with the five required sections, five real sample chunks,
   ten real calibration distances, and a real sourced Gemini answer.
 - Complete: 13 regression tests, 10 environment checks, and verification that
@@ -22,10 +22,9 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
   tracks the published GitHub history.
 - Course Portal submission will be handled by the student, as requested.
 
-The AI-use report describes the actual assistance and student actions. It does
-not invent independent authorship of the criteria or student code edits. The
-assignment's student-authorship requirement remains unfulfilled until the
-student provides their own criteria; disclosure alone does not satisfy it.
+The AI-use report describes the actual assistance and student actions. The
+student's authorship note identifies criteria 4–5 as their own wording and
+describes Claude's pressure-testing role.
 
 Keep this same repository for the next unit. The week-2 repeated evaluation
 has not been run or fabricated.

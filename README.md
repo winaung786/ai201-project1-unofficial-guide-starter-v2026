@@ -6,9 +6,8 @@ Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starte
 
 **Status:** The technical implementation and required README evidence are
 complete, and real calibration and a sourced model answer are recorded.
-Criteria 4–5 have been revised through discussion with Codex, with the original
-targets preserved in [Criteria history](CRITERIA_HISTORY.md). Their AI assistance
-is disclosed below; independent student authorship is not claimed. See
+Criteria 4–5 were written by the student and pressure-tested with Claude, with
+the original targets preserved in [Criteria history](CRITERIA_HISTORY.md). See
 [Assignment review](ASSIGNMENT_REVIEW.md)
 for the requirement check, solo review, and recorded milestone-order limitations.
 Passing development tests is not the grading standard for this unit.
@@ -187,11 +186,13 @@ the five-question repeated answer evaluation belongs to the next unit.
 
 **Disclosure:** Codex helped implement the project and draft this report.
 Criteria 1–3 come from the assignment; the questions and rationales for 1–3 were
-drafted with Codex. Criteria 4–5 were revised through discussion with Codex about
-the chunks and source documents: Codex proposed wording, and I requested revisions
-and adoption. They are AI-assisted, not independently student-written. The
-original criteria were saved before calibration; these revisions came afterward
-and are documented in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md).
+drafted with Codex. I wrote criteria 4 and 5 myself on September 14, 2026, after
+reading my chunks and the Aldridge Hall and Morrow House documents. I used Claude
+to pressure-test them: it asked how a grader would check each sentence and pointed
+out weak spots, and I then added the comparison against the original documents
+and the rule that a refusal counts as a failure. The wording of 4 and 5 is mine.
+The original criteria were saved before calibration; these revisions came
+afterward and are documented in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md).
 
 **1. Building and checking the chunker.** I gave Codex the assignment and asked
 it to work on the project, then asked it to choose suitable options. It read

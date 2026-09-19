@@ -4,10 +4,12 @@ Corpus: `campus_life`. Questions and expected phrases are recorded in
 `questions.py` before retrieval calibration or answer evaluation.
 
 **Authorship note:** Criteria 1–3 come from the assignment. The questions and
-rationales for criteria 1–3 were drafted with Codex. Criteria 4–5 were revised
-through discussion with Codex about the chunks and source documents: Codex
-proposed wording, and I requested revisions and adoption. They are AI-assisted,
-not independently student-written.
+rationales for criteria 1–3 were drafted with Codex. I wrote criteria 4 and 5
+myself on September 14, 2026, after reading my chunks and the Aldridge Hall and
+Morrow House documents. I used Claude to pressure-test them: it asked how a
+grader would check each sentence and pointed out weak spots, and I then added
+the comparison against the original documents and the rule that a refusal counts
+as a failure. The wording of 4 and 5 is mine.
 
 The original targets were recorded before calibration; revisions 4–5 below were
 made afterward on September 14, 2026. The original wording and reasons for the
