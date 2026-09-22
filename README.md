@@ -210,3 +210,66 @@ The report changed from a clearly marked missing-key status to actual model
 output and evidence. I also signed in to GitHub so the completed local history
 could be uploaded to my fork. The source documents, real distance scores, and
 saved answer are available for checking rather than relying on AI assurances.
+
+## Unit 2 — Partial Baseline (September 22, 2026)
+
+**Status: blocked before generated-answer evaluation.** This checkout was
+cloned from the same Unit 1 repository. It has no private `.env` or
+`GEMINI_API_KEY`, and the index was correctly excluded from Git. After installing
+the documented dependencies and local SOCKS proxy support, the real ONNX
+embedding model loaded and `python app.py index` rebuilt 91 chunks from the
+unchanged 88-document `campus_life` corpus. The 13 regression tests passed.
+
+The original five current Unit 1 criteria remain in `criteria.md`; earlier
+versions of criteria 4 and 5 remain in `CRITERIA_HISTORY.md`. The three
+credential-free baseline passes are saved with full retrieved chunk text,
+distances, gate decisions, and chunk inspections in
+[`results/unit2_offline_before.json`](results/unit2_offline_before.json).
+`tools/unit2_offline_baseline.py` reproduces this partial measurement against
+the current index. All three passes used the original questions and settings.
+
+| Criterion | Original current target | Local pass 1 | Local pass 2 | Local pass 3 | Unit 2 verdict |
+|---|---|---|---|---|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | Pending complete evaluation |
+| 2. Every answer names a source | Every substantive answer | No model answers | No model answers | No model answers | Not evaluated |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | Pending complete evaluation |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from three named posts | 6/6 | 6/6 | 6/6 | Pending complete evaluation |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | No model answers | No model answers | No model answers | Not evaluated |
+
+Representative **actual local pipeline output** from the partial baseline:
+
+```text
+Question: How much does one wash cost in Aldridge Hall, and how do you pay?
+0.262307 housing_aldridge_hall_laundry.txt#0:
+Laundry in Aldridge Hall
+
+Machines take $1.75 wash, $1.50 dry, card only.
+
+Question: What is the capital of Mongolia?
+Best cosine distance: 0.824593; gate refused: True
+Answer: I don't have enough information about that.
+```
+
+The first excerpt comes from `store.py::search` using a chunk produced by
+`chunker.py::split_documents`. The second refusal comes from
+`app.py::ask_pipeline` and `gate.py::check`/`gate.py::REFUSAL`. Full text and
+full-precision distances for each local pass are in the JSON evidence file.
+
+For criterion 1, the listed source chunk in each top-five retrieval contains
+the necessary answer to every part of its question. For criterion 3, the real
+`app.py::ask_pipeline` returned the exact refusal string before generation for
+all five unrelated questions in every pass. For criterion 4, the six chunks
+printed by `app.py chunks --from-doc` were inspected against their three source
+posts, and the script checked their labels, titles, complete final sentences,
+and presence of their segments in the corresponding originals. These checks
+do not measure how Gemini answers or cites the retrieved material.
+
+`python run_eval.py --label before` was attempted with caching disabled by its
+existing implementation. It stopped at the first question in
+`generate.py::_get_client` with `No valid GEMINI_API_KEY found`; it wrote no
+before run log. Therefore there is no full baseline, no honest verdict on all
+five criteria, no diagnosed generated-answer failure, no chosen improvement,
+and no after run. The saved Unit 1 sample answer is historical evidence, not
+a substitute for three new live responses. Once a private key is available in
+the evaluation environment, run the unchanged full baseline before making
+the one measured improvement. Never commit `.env` or a key.
