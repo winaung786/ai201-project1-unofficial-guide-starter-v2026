@@ -33,7 +33,7 @@ CHUNK_OVERLAP = 100     # at most this many characters of whole-sentence overlap
 
 # ─── Retrieval (Milestone 4) ─────────────────────────────────────────────────
 
-TOP_K = 5               # how many chunks to pull back per question
+TOP_K = 1               # Unit 2: omit lower-ranked other-building distractors
 
 # The relevance gate. If the best chunk is further away than this, the system
 # refuses to answer instead of handing the model thin material.
@@ -108,4 +108,3 @@ def collection_name(name: str | None = None, variant: str = "default") -> str:
     if not cleaned[-1].isalnum():
         cleaned = f"{cleaned}0"
     return cleaned[:63].rstrip("_-") or "collection"
-
