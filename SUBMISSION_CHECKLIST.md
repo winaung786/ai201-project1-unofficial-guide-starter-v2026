@@ -26,8 +26,30 @@ The AI-use report describes the actual assistance and student actions. The
 student's authorship note identifies criteria 4–5 as their own wording and
 describes Claude's pressure-testing role.
 
-Keep this same repository for the next unit. The week-2 repeated evaluation
-has not been run or fabricated.
+## Unit 2 — September 22, 2026
+
+- Complete: same repository, unchanged original five criteria and five fixed
+  questions; earlier Unit 1 criterion wording retained in CRITERIA_HISTORY.md.
+- Complete: three uncached live answers per covered question both before and
+  after one measured retrieval change, with real logs and full JSON evidence
+  in results/; the five unrelated questions were checked three times per run.
+- Complete: one criterion-level row per original criterion, honest MET/MISSED
+  decisions, source-backed reasoning, and representative real system output
+  in README.md. All five criteria were MET in both evaluations.
+- Complete: retrieval diagnosis based on other-building distractor chunks;
+  only config.TOP_K changed from 5 to 1 for the RAG pipeline.
+- Complete: after comparison, remaining limitations, What I'd Do Differently,
+  and an accurate AI-assistance disclosure in README.md.
+- Complete: existing regression tests pass (14). The actual Gemini model was
+  used and the private .env remains ignored by Git.
+- Complete: multiple Unit 2 commits keep baseline evidence earlier than the
+  retrieval change and after evidence later. No Unit 1 history was rewritten.
+- The student handles Course Portal submission, as previously requested.
+
+The five fixed questions all passed before improvement; lower-ranked
+other-building context and excess prompt tokens were the measured weakness.
+Top-k 1 removed those chunks in these trials, but wider multi-document and
+near-topic cases remain untested. No score increase is claimed.
 
 To reproduce locally from this folder on Windows:
 

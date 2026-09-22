@@ -316,3 +316,98 @@ while keeping the required facts. It also removes corroborating documents and
 might make answers worse; the unchanged five questions, model, corpus, cutoff,
 and criteria must be rerun to find out. This is the **only planned primary RAG
 change**; evidence logging is evaluation infrastructure, not an answer change.
+
+### Run Log — After
+
+After the single change to `config.TOP_K`, I ran the **same** command with a
+new label: `.venv/bin/python run_eval.py --label after`. No question, corpus,
+model, chunking rule, relevance cutoff, or original target changed. The
+[after run log](results/run_2026-09-22_1252_after.md) and its [full JSON
+transcript](results/run_2026-09-22_1252_after.json) record another 15 uncached
+Gemini answers, all retrieved chunks/distances, and 15 gate trials. The
+[after chunk checks](results/unit2_chunks_after.json) repeated the six
+named-chunk inspections three times using the unchanged chunker.
+
+| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
+
+Representative **real after output** (`run_eval.py::run_once` through
+`app.py::ask_pipeline`; the retrieved chunk is from
+`chunker.py::split_documents` and `store.py::search`):
+
+```text
+Question: How much does one wash cost in Aldridge Hall, and how do you pay?
+Best cosine distance: 0.262307; relevance gate: passed
+Only retrieved chunk: housing_aldridge_hall_laundry.txt#0
+Answer: One wash in Aldridge Hall costs $1.75, and you can pay by card only (housing_aldridge_hall_laundry.txt).
+```
+
+**Verdicts:** Each criterion was judged the same way as before. Every covered
+question had all requested facts in its sole retrieved chunk in each run; all
+15 produced answers named a retrieved source; all 15 unrelated questions were
+blocked by the gate with the required refusal; all six named chunks preserved
+sentences and source boundaries in each repeat; and manual review found all
+15 answers' factual claims supported by their cited original documents. No
+covered refusal or borderline result was counted as a pass.
+
+### Before vs. After
+
+| Measured item | Before | After | Interpretation |
+|---|---:|---:|---|
+| Covered answers passing source-backed manual review | 15/15 | 15/15 | Unchanged on these fixed questions |
+| Gate refusals for unrelated questions | 15/15 | 15/15 | Unchanged |
+| Retrieved chunks handed to generation per covered question | 5 | 1 | Four lower-ranked chunks no longer reach the model |
+| Model calls for 15 covered questions | 15 | 15 | Both are uncached live runs |
+| Prompt tokens reported by the model | 10,299 | 4,557 | 5,742 fewer |
+| Total tokens reported by the model | 10,842 | 5,047 | 5,795 fewer, about 53% |
+
+The selected change **succeeded at its measured target**: the other-building
+chunks no longer entered the prompt and model-reported token use fell. It did
+not improve the five criterion scores because all five already met their
+original targets in the baseline. Nothing became worse on these five fixed
+questions in three trials, but reducing the evidence to one chunk could harm
+questions that require combining sources; these trials do not measure that.
+Both model runs can also vary naturally, so the token difference is a measured
+comparison for these trials, not a universal cost guarantee.
+
+### What's Still Broken
+
+**No original criterion remains MISSED after the change.** The evaluation is
+limited to five covered questions and five clearly unrelated ones. A near-topic
+unsupported question might pass the distance gate, and a question requiring
+facts from multiple source documents might suffer under top-k 1. Next I would
+try a separate, fixed multi-document and near-topic test set before adopting
+top-k 1 for wider use. I did not make another RAG change in this unit because
+the assignment calls for exactly one measured improvement and a repeated test
+of the same five original criteria. The sample does not prove that all future
+answers will be grounded.
+
+### What I'd Do Differently
+
+Next time I would make **criterion 5** more repeatable before seeing any
+answers: write a claim-level answer key for each fixed question, with the
+required place, exact numbers or limits, acceptable cited filenames, and an
+explicit rule for any extra factual claim. The existing original-document
+comparison made manual scoring possible here, but two reviewers could still
+disagree about whether an extra clause is fully supported. I would also state
+clearly in criterion 2 that its source-name requirement applies to substantive
+answers, while an honest refusal is assessed under criterion 3. I would keep
+criterion 4's source-boundary check but specify its sentence test in advance.
+These are suggestions for a future test plan; the Unit 1 criteria and their
+recorded history were not retroactively rewritten.
+
+### How ChatGPT Helped in Unit 2
+
+Codex inspected the existing pipeline and original criteria, prepared logging
+that captures the actual application answer and complete retrieved evidence,
+ran the live before and after evaluations, checked claims against the original
+posts, identified unrelated lower-ranked chunks, made the single retrieval
+setting change, and drafted this evidence-based comparison. The model's real
+outputs and usage measurements are saved separately from Codex's judgment.
+No student-only work, class discussion, or independent student authorship of
+this Unit 2 text is claimed.

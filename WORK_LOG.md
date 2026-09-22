@@ -151,3 +151,30 @@ on September 14 after reading their chunks and the Aldridge Hall and Morrow Hous
 documents. Claude pressure-tested the student's wording by asking how a grader
 would check it and pointing out weak spots; the student then added the comparison
 against original documents and the rule that a refusal counts as a failure.
+
+## Unit 2 repeated evaluation — September 22, 2026
+
+- Used the same GitHub repository, `campus_life` corpus, existing 91-chunk
+  index, MiniLM embedding model, Gemini generation model, five questions,
+  five original criteria, and 0.6 gate cutoff. The student supplied a private
+  API key for this work; it was put only in the Git-ignored local `.env`.
+- Before changing a RAG setting, adjusted evaluation logging to capture the
+  actual application answer (including citation enforcement), raw model
+  output, every retrieved chunk and distance, gate decisions, and sources.
+  The default application path continued to use its original behavior.
+- `run_eval.py --label before` made 15 uncached model calls. Manual review of
+  the original source posts found all five criteria MET in each of three runs;
+  all 15 out-of-scope gate checks refused as required.
+- Diagnosed irrelevant other-building posts in lower-ranked retrieval results.
+  Kestrel retrieval included three different dining places; Aldridge retrieval
+  included Innisfree and Old Brewhouse laundry with differing rules. No
+  original criterion was missed; this was a measured context-quality weakness.
+- Changed exactly one RAG setting: `config.TOP_K` from 5 to 1. The top chunk
+  already contained all parts of every fixed question's answer. This removes
+  corroborating sources too, so the after evaluation was necessary.
+- `run_eval.py --label after` made another 15 uncached model calls. All five
+  original criteria remained MET across three trials. Prompt tokens were
+  10,299 before and 4,557 after; total tokens 10,842 before and 5,047 after.
+  No universal quality or cost guarantee is claimed from these fixed trials.
+- Fourteen regression tests passed. README, RUNNING.md, and
+  SUBMISSION_CHECKLIST.md were updated with full evidence and remaining limits.

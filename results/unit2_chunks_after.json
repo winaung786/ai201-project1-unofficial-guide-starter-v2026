@@ -1,0 +1,269 @@
+{
+  "when_utc": "2026-09-22T02:53:53.728265+00:00",
+  "corpus": "campus_life",
+  "phase": "after",
+  "method": "chunker.py::split_documents checked against ingest.py::load_documents; source prose manually inspected before and after",
+  "rows": [
+    {
+      "run": 1,
+      "source": "housing_innisfree_hall.txt",
+      "chunks": [
+        {
+          "label": "housing_innisfree_hall.txt#0",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nTransferred in last year, so take this with a grain of salt. Built 1991, renovated 2022. Rooms are doubles arranged as pairs sharing one bathroom between two rooms. The good: the shared-bathroom-between-two-rooms arrangement is the best compromise on campus. The bad: no air conditioning, which matters for the first three weeks of September. Laundry costs $1.75 wash, $1.75 dry, app-based.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_innisfree_hall.txt#1",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nLaundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building is L-shaped and the short wing is much quieter.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 1,
+      "source": "housing_morrow_house.txt",
+      "chunks": [
+        {
+          "label": "housing_morrow_house.txt#0",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nJust finished a year in this building. Built 1954, partially renovated 2008. Rooms are singles and doubles, hall bathrooms. The good: cheapest housing tier by about $900 a year, and the singles are real singles. The bad: known damp problem on the ground floor; two rooms were taken offline in 2024. Laundry costs $1.50 wash, $1.25 dry, coin or card.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_morrow_house.txt#1",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nLaundry costs $1.50 wash, $1.25 dry, coin or card. On noise: loud until about 1am on weekends, no enforced quiet hours.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 1,
+      "source": "housing_old_brewhouse.txt",
+      "chunks": [
+        {
+          "label": "housing_old_brewhouse.txt#0",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nTook this last spring. Built 1902 as a brewery, converted to housing in 1998. Rooms are doubles and triples with unusual floor plans, no two alike. The good: the most characterful building on campus and people get attached to it. The bad: the heating is uneven — some rooms run hot all winter and can't be adjusted. Laundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_old_brewhouse.txt#1",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nLaundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old. On noise: sound carries strangely because of the original brick; a room two floors up can be louder than next door.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 2,
+      "source": "housing_innisfree_hall.txt",
+      "chunks": [
+        {
+          "label": "housing_innisfree_hall.txt#0",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nTransferred in last year, so take this with a grain of salt. Built 1991, renovated 2022. Rooms are doubles arranged as pairs sharing one bathroom between two rooms. The good: the shared-bathroom-between-two-rooms arrangement is the best compromise on campus. The bad: no air conditioning, which matters for the first three weeks of September. Laundry costs $1.75 wash, $1.75 dry, app-based.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_innisfree_hall.txt#1",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nLaundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building is L-shaped and the short wing is much quieter.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 2,
+      "source": "housing_morrow_house.txt",
+      "chunks": [
+        {
+          "label": "housing_morrow_house.txt#0",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nJust finished a year in this building. Built 1954, partially renovated 2008. Rooms are singles and doubles, hall bathrooms. The good: cheapest housing tier by about $900 a year, and the singles are real singles. The bad: known damp problem on the ground floor; two rooms were taken offline in 2024. Laundry costs $1.50 wash, $1.25 dry, coin or card.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_morrow_house.txt#1",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nLaundry costs $1.50 wash, $1.25 dry, coin or card. On noise: loud until about 1am on weekends, no enforced quiet hours.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 2,
+      "source": "housing_old_brewhouse.txt",
+      "chunks": [
+        {
+          "label": "housing_old_brewhouse.txt#0",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nTook this last spring. Built 1902 as a brewery, converted to housing in 1998. Rooms are doubles and triples with unusual floor plans, no two alike. The good: the most characterful building on campus and people get attached to it. The bad: the heating is uneven — some rooms run hot all winter and can't be adjusted. Laundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_old_brewhouse.txt#1",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nLaundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old. On noise: sound carries strangely because of the original brick; a room two floors up can be louder than next door.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 3,
+      "source": "housing_innisfree_hall.txt",
+      "chunks": [
+        {
+          "label": "housing_innisfree_hall.txt#0",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nTransferred in last year, so take this with a grain of salt. Built 1991, renovated 2022. Rooms are doubles arranged as pairs sharing one bathroom between two rooms. The good: the shared-bathroom-between-two-rooms arrangement is the best compromise on campus. The bad: no air conditioning, which matters for the first three weeks of September. Laundry costs $1.75 wash, $1.75 dry, app-based.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_innisfree_hall.txt#1",
+          "source": "housing_innisfree_hall.txt",
+          "text": "Innisfree Hall — what it's actually like\n\nLaundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building is L-shaped and the short wing is much quieter.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 3,
+      "source": "housing_morrow_house.txt",
+      "chunks": [
+        {
+          "label": "housing_morrow_house.txt#0",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nJust finished a year in this building. Built 1954, partially renovated 2008. Rooms are singles and doubles, hall bathrooms. The good: cheapest housing tier by about $900 a year, and the singles are real singles. The bad: known damp problem on the ground floor; two rooms were taken offline in 2024. Laundry costs $1.50 wash, $1.25 dry, coin or card.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_morrow_house.txt#1",
+          "source": "housing_morrow_house.txt",
+          "text": "Morrow House — what it's actually like\n\nLaundry costs $1.50 wash, $1.25 dry, coin or card. On noise: loud until about 1am on weekends, no enforced quiet hours.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    },
+    {
+      "run": 3,
+      "source": "housing_old_brewhouse.txt",
+      "chunks": [
+        {
+          "label": "housing_old_brewhouse.txt#0",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nTook this last spring. Built 1902 as a brewery, converted to housing in 1998. Rooms are doubles and triples with unusual floor plans, no two alike. The good: the most characterful building on campus and people get attached to it. The bad: the heating is uneven — some rooms run hot all winter and can't be adjusted. Laundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        },
+        {
+          "label": "housing_old_brewhouse.txt#1",
+          "source": "housing_old_brewhouse.txt",
+          "text": "Old Brewhouse — what it's actually like\n\nLaundry costs $1.50 wash, $1.50 dry, coin only, and the machines are old. On noise: sound carries strangely because of the original brick; a room two floors up can be louder than next door.",
+          "produced_by": "chunker.py::split_documents",
+          "checks": {
+            "title_matches_source": true,
+            "ends_at_sentence_boundary": true,
+            "each_sentence_fragment_in_source": true
+          }
+        }
+      ],
+      "passes": true
+    }
+  ]
+}
