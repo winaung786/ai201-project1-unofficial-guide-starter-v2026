@@ -211,65 +211,108 @@ output and evidence. I also signed in to GitHub so the completed local history
 could be uploaded to my fork. The source documents, real distance scores, and
 saved answer are available for checking rather than relying on AI assurances.
 
-## Unit 2 — Partial Baseline (September 22, 2026)
+## Unit 2 — Testing the Same RAG System (September 22, 2026)
 
-**Status: blocked before generated-answer evaluation.** This checkout was
-cloned from the same Unit 1 repository. It has no private `.env` or
-`GEMINI_API_KEY`, and the index was correctly excluded from Git. After installing
-the documented dependencies and local SOCKS proxy support, the real ONNX
-embedding model loaded and `python app.py index` rebuilt 91 chunks from the
-unchanged 88-document `campus_life` corpus. The 13 regression tests passed.
+This unit uses the unchanged `campus_life` corpus, original five fixed questions,
+MiniLM embeddings, Gemini model, chunker, cutoff 0.6, and original criteria in
+[`criteria.md`](criteria.md). Earlier Unit 1 wording for criteria 4 and 5 is
+preserved in [`CRITERIA_HISTORY.md`](CRITERIA_HISTORY.md). The Unit 2 evaluation
+harness records actual application answers, including post-generation citation
+checks, with caching disabled for all model trials. This logging change does not
+change how ordinary questions are answered.
 
-The original five current Unit 1 criteria remain in `criteria.md`; earlier
-versions of criteria 4 and 5 remain in `CRITERIA_HISTORY.md`. The three
-credential-free baseline passes are saved with full retrieved chunk text,
-distances, gate decisions, and chunk inspections in
+### Run Log — Before
+
+Commands: `.venv/bin/python app.py index` and
+`.venv/bin/python run_eval.py --label before` after `python test.py` and the
+regression suite. The index contained 91 chunks from 88 documents. The full
+before log is in [`results/run_2026-09-22_1250_before.md`](results/run_2026-09-22_1250_before.md);
+its [JSON evidence](results/run_2026-09-22_1250_before.json) contains all
+retrieved chunks, full distances, gate decisions, raw model answers, answers
+shown by the application, and cited sources. Fifteen separate Gemini answers
+were generated without cache; the gate blocked all 15 out-of-scope trials
+before a model call. The three deterministic chunk checks are recorded in
 [`results/unit2_offline_before.json`](results/unit2_offline_before.json).
-`tools/unit2_offline_baseline.py` reproduces this partial measurement against
-the current index. All three passes used the original questions and settings.
 
-| Criterion | Original current target | Local pass 1 | Local pass 2 | Local pass 3 | Unit 2 verdict |
-|---|---|---|---|---|---|
-| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | Pending complete evaluation |
-| 2. Every answer names a source | Every substantive answer | No model answers | No model answers | No model answers | Not evaluated |
-| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | Pending complete evaluation |
-| 4. Chunks preserve sentences and source boundaries | All six chunks from three named posts | 6/6 | 6/6 | 6/6 | Pending complete evaluation |
-| 5. Cited sources support the claims | At least 4 of 5 covered answers | No model answers | No model answers | No model answers | Not evaluated |
+| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
 
-Representative **actual local pipeline output** from the partial baseline:
+Representative **real system output**, produced by `run_eval.py::run_once`
+through `app.py::ask_pipeline`, `store.py::search`, `gate.py::check`, and
+`generate.py::answer_from_chunks` (covered question, run 1):
 
 ```text
 Question: How much does one wash cost in Aldridge Hall, and how do you pay?
-0.262307 housing_aldridge_hall_laundry.txt#0:
-Laundry in Aldridge Hall
+Best cosine distance: 0.262307; relevance gate: passed
+Retrieved: housing_aldridge_hall_laundry.txt#0 — Machines take $1.75 wash, $1.50 dry, card only.
+Answer: In Aldridge Hall, a wash costs $1.75 and is card only. (housing_aldridge_hall_laundry.txt and housing_aldridge_hall.txt)
+```
 
-Machines take $1.75 wash, $1.50 dry, card only.
+Both cited Aldridge files state the same price and payment rule. The chunks
+were produced by `chunker.py::split_documents`. The full retrieved chunk text
+and precise distance are in the before JSON. A real refusal (out-of-scope run
+1, `app.py::ask_pipeline` / `gate.py::REFUSAL`):
 
+```text
 Question: What is the capital of Mongolia?
-Best cosine distance: 0.824593; gate refused: True
+Best cosine distance: 0.824593; relevance gate: refused
 Answer: I don't have enough information about that.
 ```
 
-The first excerpt comes from `store.py::search` using a chunk produced by
-`chunker.py::split_documents`. The second refusal comes from
-`app.py::ask_pipeline` and `gate.py::check`/`gate.py::REFUSAL`. Full text and
-full-precision distances for each local pass are in the JSON evidence file.
+### Verdicts
 
-For criterion 1, the listed source chunk in each top-five retrieval contains
-the necessary answer to every part of its question. For criterion 3, the real
-`app.py::ask_pipeline` returned the exact refusal string before generation for
-all five unrelated questions in every pass. For criterion 4, the six chunks
-printed by `app.py chunks --from-doc` were inspected against their three source
-posts, and the script checked their labels, titles, complete final sentences,
-and presence of their segments in the corresponding originals. These checks
-do not measure how Gemini answers or cites the retrieved material.
+1. **MET:** For each of the five covered questions, at least one of the top
+   five chunks contained all requested facts, in each of three retrieval runs.
+   The housing lottery, Kestrel Commons wait, Aldridge laundry, study room
+   limits, and printing credit were each present in a correctly named source.
+2. **MET:** All 15 substantive answers named at least one retrieved filename.
+   No covered answer was rejected by the application's citation check. Gate
+   refusals did not invent citations and belong under criterion 3.
+3. **MET:** The gate refused all five fixed unrelated questions in each of
+   three runs (15/15) with the required exact refusal text and zero model
+   calls for those questions.
+4. **MET:** `python app.py chunks --from-doc FILENAME` showed two pieces from
+   each of Innisfree Hall, Morrow House, and Old Brewhouse. All six had their
+   own post's title and complete sentences. The six pieces were inspected
+   against their original posts; no foreign post text appeared.
+5. **MET:** Manual review of each of the 15 answers against the original
+   cited documents found the correct named service/place and all requested
+   values: credit-hour order with random ties, 20–25 minutes at Kestrel,
+   $1.75/card only at Aldridge, two weeks/two blocks for study rooms, and
+   $30/no rollover for printing. Other factual details in these concise
+   answers were also supported by their cited source(s). No refusal was
+   counted as a successful covered answer. The `expects` strings alone were
+   not used as proof.
 
-`python run_eval.py --label before` was attempted with caching disabled by its
-existing implementation. It stopped at the first question in
-`generate.py::_get_client` with `No valid GEMINI_API_KEY found`; it wrote no
-before run log. Therefore there is no full baseline, no honest verdict on all
-five criteria, no diagnosed generated-answer failure, no chosen improvement,
-and no after run. The saved Unit 1 sample answer is historical evidence, not
-a substitute for three new live responses. Once a private key is available in
-the evaluation environment, run the unchanged full baseline before making
-the one measured improvement. Never commit `.env` or a key.
+### Diagnoses
+
+**No original criterion was missed**, so there is no failed criterion to
+relabel, revise, or explain away. The original targets remain unchanged.
+There is nevertheless a measurable retrieval weakness: the top-five context
+includes unrelated, same-topic posts. For Kestrel, ranks 3–5 describe
+Ridgeway Café, Halden Hall, and North Kitchen with different waits; for
+Aldridge, ranks 2, 4, and 5 describe Innisfree or Old Brewhouse laundry with
+other payment methods and prices. This originates in **retrieval**: semantic
+similarity favors nearby dining/laundry terms even for different named places.
+`app.py::ask_pipeline` hands all five chunks to generation once the best hit
+passes the gate; the model then must distinguish the named location itself.
+The before answers happened to distinguish them correctly in all 15 trials.
+This is an observed context-quality defect and a future answer-confusion risk,
+not a fabricated missed criterion.
+
+### The Improvement — Selected Before Implementation
+
+Observed failure → diagnosis → chosen improvement: irrelevant other-building
+chunks enter the prompt → top-five semantic retrieval includes lower-ranked
+same-topic posts → reduce only `config.TOP_K` from **5 to 1**. Each original
+question's highest-ranked chunk already contains the full answer, including
+Kestrel's corroborating follow-up, so this should remove misleading context
+while keeping the required facts. It also removes corroborating documents and
+might make answers worse; the unchanged five questions, model, corpus, cutoff,
+and criteria must be rerun to find out. This is the **only planned primary RAG
+change**; evidence logging is evaluation infrastructure, not an answer change.
