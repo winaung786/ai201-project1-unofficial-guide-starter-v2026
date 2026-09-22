@@ -8,13 +8,10 @@ Run your test questions repeatedly and write the results down.
 
 This does the mechanical half of week 2 for you: it asks each of your questions
 the same way three separate times, with caching turned off so you get three
-real answers, and writes everything into results/ as a table with one row per
-question.
+real answers, and writes a Markdown table and full JSON evidence into results/.
 
 It also puts every question in `OUT_OF_SCOPE` through retrieval and the gate
-and records what happened, so criterion 3 — the one about out-of-corpus
-questions — has evidence in the same file as the other four. That part costs
-nothing: a question the gate refuses never reaches the model.
+three times and records what happened. Gate-refused trials cost no model calls.
 
 That table is the raw material for your run log, not the run log itself. The
 submission template wants one row per *criterion* — aggregating your questions
@@ -34,8 +31,8 @@ you a scorer; you'd learn nothing from it.
 
 import argparse
 import datetime as dt
+import json
 import sys
-from pathlib import Path
 
 import config
 import questions as qs
@@ -52,20 +49,37 @@ def load_scorer():
 
 
 def run_once(question: str, top_k, threshold, corpus, variant):
-    """One question, one run. Returns the answer and what retrieval gave us."""
-    from store import search
-    import gate
-    from generate import answer_from_chunks
+    """Measure the actual application answer and retain the raw model output."""
+    from app import ask_pipeline
 
-    results = search(question, top_k=top_k, corpus=corpus, variant=variant)
-    decision = gate.check(results, threshold=threshold)
+    observed = {"results": [], "decision": None, "model_answer": None}
+    outcome = ask_pipeline(
+        question, top_k=top_k, threshold=threshold, corpus=corpus,
+        variant=variant, answer_cache=False,
+        on_retrieval=lambda hits: observed.update(results=hits),
+        on_gate=lambda decision: observed.update(decision=decision),
+        on_model_answer=lambda answer: observed.update(model_answer=answer),
+    )
+    return outcome, observed["results"], observed["decision"], observed["model_answer"]
 
-    if not decision.passed:
-        return gate.REFUSAL, results, decision
 
-    # cache=False on purpose. Three runs have to be three real answers.
-    answer = answer_from_chunks(question, results, cache=False)
-    return answer, results, decision
+def evidence(outcome, results, decision, model_answer, run):
+    """Keep all retrieved evidence used for this exact trial."""
+    return {
+        "question": outcome["question"], "run": run,
+        "answer": outcome["answer"], "raw_model_answer": model_answer,
+        "cited_sources": outcome["sources"],
+        "retrieved_sources": outcome["retrieved_sources"],
+        "best_distance": decision.best_distance,
+        "gate_passed": decision.passed,
+        "refused": outcome["refused"],
+        "refusal_reason": outcome["refusal_reason"],
+        "retrieved_chunks": [
+            {"label": r.label, "source": r.source, "text": r.text,
+             "distance": r.distance, "produced_by": r.produced_by}
+            for r in results
+        ],
+    }
 
 
 def main():
@@ -109,29 +123,22 @@ def main():
 
         run_results = []
         for run in range(1, args.runs + 1):
-            answer, results, decision = run_once(
+            outcome, results, decision, model_answer = run_once(
                 question, top_k, threshold, corpus, args.variant
             )
-            passed = judge(question, expects, answer, results) if judge else None
+            passed = judge(question, expects, outcome["answer"], results) if judge else None
             run_results.append(passed)
 
             mark = {True: "pass", False: "fail", None: "—"}[passed]
             print(f"  run {run}: {mark}  (best distance {decision.best_distance:.3f})")
 
-            transcript.append(
-                {
-                    "question": question,
-                    "run": run,
-                    "answer": answer,
-                    "sources": sorted({r.source for r in results}),
-                    "best_distance": decision.best_distance,
-                    "gate_passed": decision.passed,
-                }
-            )
+            entry = evidence(outcome, results, decision, model_answer, run)
+            entry["scorer_passed"] = passed
+            transcript.append(entry)
 
         rows.append({"question": question, "expects": expects, "runs": run_results})
 
-    gate_rows = check_out_of_scope(top_k, threshold, corpus, args.variant)
+    gate_rows = check_out_of_scope(top_k, threshold, corpus, args.variant, args.runs)
 
     write_report(
         rows, transcript, gate_rows, args, corpus, top_k, threshold,
@@ -139,40 +146,32 @@ def main():
     )
 
 
-def check_out_of_scope(top_k, threshold, corpus, variant):
+def check_out_of_scope(top_k, threshold, corpus, variant, runs=1):
     """Put every OUT_OF_SCOPE question through retrieval and the gate.
 
     Criterion 3 in criteria.md is about questions the corpus doesn't cover, and
-    it needs evidence in the run log like the other four. This costs nothing:
-    a question the gate refuses never reaches the model, so there is no API
-    call and no reason to run it three times — retrieval is deterministic and
-    the gate is a comparison against a fixed number.
+    it needs evidence in the run log like the other four. Gate-refused
+    questions cost no model calls; every trial is recorded separately.
     """
-    from store import search
-    import gate
-
     questions = getattr(qs, "OUT_OF_SCOPE", [])
     if not questions:
         return []
 
     print("\nOut-of-scope questions (the gate should refuse these):")
     rows = []
-    for question in questions:
-        results = search(question, top_k=top_k, corpus=corpus, variant=variant)
-        decision = gate.check(results, threshold=threshold)
-        refused = not decision.passed
-        print(f"  {'refused' if refused else 'LET THROUGH'}  "
-              f"(best distance {decision.best_distance:.3f})  {question}")
-        rows.append(
-            {
-                "question": question,
-                "refused": refused,
-                "best_distance": decision.best_distance,
-            }
-        )
+    for run in range(1, runs + 1):
+        for question in questions:
+            outcome, results, decision, model_answer = run_once(
+                question, top_k, threshold, corpus, variant
+            )
+            row = evidence(outcome, results, decision, model_answer, run)
+            row["gate_refused"] = not decision.passed
+            rows.append(row)
+            print(f"  run {run}: {'gate refused' if row['gate_refused'] else 'gate LET THROUGH'}  "
+                  f"(best distance {decision.best_distance:.3f})  {question}")
 
-    kept = sum(r["refused"] for r in rows)
-    print(f"  -> gate refused {kept} of {len(rows)}")
+    kept = sum(r["gate_refused"] for r in rows)
+    print(f"  -> gate refused {kept} of {len(rows)} trials")
     return rows
 
 
@@ -181,6 +180,7 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
     stamp = dt.datetime.now().strftime("%Y-%m-%d_%H%M")
     label = f"_{args.label}" if args.label else ""
     path = config.RESULTS_DIR / f"run_{stamp}{label}.md"
+    json_path = path.with_suffix(".json")
 
     n = len(rows[0]["runs"]) if rows else 0
     run_headers = " | ".join(f"Run {i}" for i in range(1, n + 1))
@@ -220,7 +220,7 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
         ]
 
     if gate_rows:
-        refused = sum(r["refused"] for r in gate_rows)
+        refused = sum(r["gate_refused"] for r in gate_rows)
         lines += [
             "",
             "---",
@@ -230,17 +230,16 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
             f"Produced by `run_eval.py::check_out_of_scope`, cutoff {threshold}. "
             f"Refused {refused} of {len(gate_rows)}.",
             "",
-            "Retrieval is deterministic and the gate is a comparison against a",
-            "fixed number, so these do not vary between runs — one pass over the",
-            "list is the whole measurement.",
+            "Each fixed question was tested in every run. Gate refusals cost",
+            "zero model calls; questions let through use the application answer.",
             "",
-            "| Out-of-scope question | Best distance | Gate |",
-            "|---|---|---|",
+            "| Run | Out-of-scope question | Best distance | Gate |",
+            "|---|---|---|---|",
         ]
         for row in gate_rows:
             question = row["question"].replace("|", "\\|")
-            verdict = "refused" if row["refused"] else "**let through**"
-            lines.append(f"| {question} | {row['best_distance']:.3f} | {verdict} |")
+            verdict = "refused" if row["gate_refused"] else "**let through**"
+            lines.append(f"| {row['run']} | {question} | {row['best_distance']:.3f} | {verdict} |")
 
     lines += ["", "---", "", "## Real output", "",
               "This is what the system actually produced. Paste the relevant parts",
@@ -253,7 +252,8 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
             "",
             f"- Best distance: {entry['best_distance']:.4f} "
             f"({'passed' if entry['gate_passed'] else 'refused by'} the gate)",
-            f"- Sources retrieved: {', '.join(entry['sources']) or 'none'}",
+            f"- Sources retrieved: {', '.join(entry['retrieved_sources']) or 'none'}",
+            f"- Sources cited: {', '.join(entry['cited_sources']) or 'none'}",
             "",
             "```",
             entry["answer"],
@@ -265,7 +265,17 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
 
     import generate as gen
 
-    print(f"\nWrote {path.relative_to(config.ROOT)}")
+    json_path.write_text(json.dumps({
+        "label": args.label, "when_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "corpus": corpus, "variant": args.variant,
+        "embedding_model": config.EMBEDDING_MODEL, "generation_model": config.MODEL,
+        "top_k": top_k, "threshold": threshold, "runs": n,
+        "answer_cache": False, "scored": scored,
+        "covered_trials": transcript, "out_of_scope_trials": gate_rows,
+        "model_calls": gen.call_count(), "token_counts": gen.token_counts(),
+    }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    print(f"\nWrote {path.relative_to(config.ROOT)} and {json_path.relative_to(config.ROOT)}")
     print(gen.usage())
     print("\nCommit this file. It's the evidence the run actually happened.")
 

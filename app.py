@@ -183,6 +183,9 @@ def ask_pipeline(
     threshold=None,
     on_gate=None,
     on_prompt=None,
+    on_retrieval=None,
+    on_model_answer=None,
+    answer_cache=True,
 ):
     """Retrieve, gate, answer. Returns the outcome and prints nothing.
 
@@ -193,7 +196,10 @@ def ask_pipeline(
     when to refuse would be a second cutoff you'd have to keep in step with
     this one, and it would drift.
 
-    The two optional callbacks let the command line print as it goes without
+    The optional callbacks let the command line and evaluator inspect each
+    stage without changing the answer. `answer_cache=False` is for independent
+    evaluation trials; ordinary application requests keep their prior default.
+    The command line's two callbacks print as it goes without
     this function knowing anything about printing: `on_gate` is handed the gate
     decision as soon as it's made, and `on_prompt` is handed the assembled
     prompt just before it goes out — that's how `--show-prompt` shows you the
@@ -209,6 +215,8 @@ def ask_pipeline(
         corpus=corpus or config.CORPUS,
         variant=variant,
     )
+    if on_retrieval is not None:
+        on_retrieval(results)
     decision = gate.check(results, threshold=threshold)
     if on_gate is not None:
         on_gate(decision)
@@ -233,7 +241,12 @@ def ask_pipeline(
         on_prompt(prompt)
 
     outcome["prompt"] = prompt
-    answer = answer_from_chunks(question, results).strip()
+    if answer_cache:
+        answer = answer_from_chunks(question, results).strip()
+    else:
+        answer = answer_from_chunks(question, results, cache=False).strip()
+    if on_model_answer is not None:
+        on_model_answer(answer)
 
     # Passing the distance gate only means the evidence is close enough to
     # show the model. The model can still decide that the excerpts do not
