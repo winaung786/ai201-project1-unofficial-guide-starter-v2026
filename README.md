@@ -221,6 +221,16 @@ harness records actual application answers, including post-generation citation
 checks, with caching disabled for all model trials. This logging change does not
 change how ordinary questions are answered.
 
+The required Week 2 scorer is implemented in [`scorer.py`](scorer.py) with the
+exact `judge(question, expects, answer, results) -> bool` interface used by
+`run_eval.py`. It performs the class's deliberately simple, case-insensitive
+substring check. The criterion-level source and grounding judgments below
+remain manual because that scorer cannot detect an unsupported extra claim.
+The scorer was also applied to the saved real evaluation answers: all 15 before
+answers and all 15 after answers passed. The per-question record is in
+[`results/scorer_verification.md`](results/scorer_verification.md). This
+verification did not regenerate or change the original uncached model runs.
+
 ### Run Log — Before
 
 Commands: `.venv/bin/python app.py index` and

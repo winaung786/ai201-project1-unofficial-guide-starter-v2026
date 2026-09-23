@@ -5,10 +5,28 @@ from unittest.mock import patch
 
 import gate
 import run_eval
+import scorer
 from store import Result
 
 
 class EvaluationTests(unittest.TestCase):
+    def test_week_two_scorer_uses_required_expected_phrase(self):
+        self.assertTrue(
+            scorer.judge(
+                "How much printing credit?", "$30",
+                "Each student gets $30 per semester.", [],
+            )
+        )
+        self.assertFalse(
+            scorer.judge(
+                "How much printing credit?", "$30",
+                "The answer does not state the amount.", [],
+            )
+        )
+
+    def test_week_two_scorer_rejects_an_empty_expectation(self):
+        self.assertFalse(scorer.judge("Question", "", "Any answer", []))
+
     def test_uncited_raw_answer_is_logged_but_user_sees_refusal(self):
         hit = Result(
             "Printing credit is $30.", "printing.txt", "printing.txt#0",
