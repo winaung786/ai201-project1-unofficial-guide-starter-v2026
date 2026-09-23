@@ -51,6 +51,23 @@ other-building context and excess prompt tokens were the measured weakness.
 Top-k 1 removed those chunks in these trials, but wider multi-document and
 near-topic cases remain untested. No score increase is claimed.
 
+### Week 2 final evidence audit — September 23, 2026
+
+- The required `scorer.py::judge` is present. All 17 automated tests pass in
+  the fresh checkout.
+- The original three-run before/after JSON files are unchanged. Their
+  question-level Markdown score columns are blank because those live runs
+  predate `scorer.py`. `score_saved.py` now produces separate, clearly labeled
+  retrospective scorer reports from those real answers: 15/15 before and
+  15/15 after. It does not make a new model call or claim a fresh live rerun.
+- The five criterion-level run rows, original Unit 1 targets, source-backed
+  review, single top-k improvement, comparison, and limitations remain in
+  `README.md`. The earlier pre-calibration wording for criteria 4 and 5 now
+  also appears directly underneath those criteria in `criteria.md`.
+- The final scorer and retrospective reports are published to this same GitHub
+  repository. A new live rerun with scorer-enabled raw logs would require a
+  Gemini key and rebuilt local index in this fresh checkout; it was not done.
+
 To reproduce locally from this folder on Windows:
 
 ```powershell

@@ -12,9 +12,11 @@ the comparison against the original documents and the rule that a refusal counts
 as a failure. The wording of 4 and 5 is mine.
 
 The original targets were recorded before calibration; revisions 4–5 below were
-made afterward on September 14, 2026. The original wording and reasons for the
-changes are preserved in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md). These are
-standards to test against, not claims that the system has already passed.
+made afterward on September 14, 2026, before Unit 2. Their earlier wording and
+reasons are preserved here and in [CRITERIA_HISTORY.md](CRITERIA_HISTORY.md).
+Unit 2 tested the already-established revised wording below; it did not revise
+either target after seeing Unit 2 results. These are standards to test against,
+not claims that the system has already passed.
 
 ## 1. Retrieved chunks contain the answer
 
@@ -49,6 +51,19 @@ distances later; do not lower this target after observing results.
 
 ## 4. Chunks preserve sentences and source boundaries
 
+**Original criterion (pre-calibration wording, preserved verbatim):**
+
+> All five chunks printed by `python app.py chunks -n 5` must include a topic
+> title and at least one complete factual statement; none may begin or end with
+> a sentence cut in half.
+
+**Original reason (preserved verbatim):** Posts contain prices, times, and payment rules that can
+become misleading when split mid-sentence. Requiring all five samples to be
+readable fits this short-post corpus. Compare each with its original document;
+a sample passes only if all three conditions hold.
+
+**Revised measurable criterion (September 14, 2026; the Unit 2 target):**
+
 When I run `python app.py chunks --from-doc FILENAME` for
 `housing_innisfree_hall.txt`, `housing_morrow_house.txt`, and
 `housing_old_brewhouse.txt`, all six resulting chunks must contain text from only
@@ -59,7 +74,26 @@ the originals in `corpora/campus_life/documents/`.
 split, so checking every piece tests the places where a sentence could be cut.
 A chunk also fails if it mixes text from different posts.
 
+**Reason for revision:** The five-sample command did not guarantee inspection
+of the split boundaries. The revised test names all six pieces from three posts
+that actually split and checks each against its own source. This change was
+recorded in Unit 1, before the Unit 2 before/after evaluation.
+
 ## 5. Cited sources support the claims
+
+**Original criterion (pre-calibration wording, preserved verbatim):**
+
+> For at least 4 of the 5 in-corpus test answers, every factual claim must be
+> supported by a document explicitly cited in that answer, including the correct
+> building or service name and any stated prices, times, or limits.
+
+**Original reason (preserved verbatim):** Similar laundry and dining posts make an answer about the
+wrong place a realistic failure. Four fully supported answers is more demanding
+than merely finding a filename. Check every claim against the cited files; an
+unsupported claim, wrong entity, or refusal fails that answer. This requires
+human review, not just a match against the `expects` phrase.
+
+**Revised measurable criterion (September 14, 2026; the Unit 2 target):**
 
 For at least 4 of my 5 test questions in `questions.py`, the answer must name the
 correct place or service, give the correct numbers where needed, and cite source
@@ -72,6 +106,10 @@ trust. A refusal counts as a failure because the documents cover these questions
 the `expects` phrase is only a quick first check, and the original document is
 the reference for deciding whether an answer is correct.
 
-In week 2, preserve these targets and record any justified revisions with their
-original wording in `CRITERIA_HISTORY.md`; do not erase a target because a result
-missed it.
+**Reason for revision:** The revision explicitly names the fixed question set
+and original corpus documents as the reference for checking every claim. It
+keeps the 4-of-5 threshold and makes the existing refusal-fails rule explicit.
+This change was recorded in Unit 1, before the Unit 2 before/after evaluation.
+
+In week 2, preserve these targets and record any justified revisions beneath
+the originals with a reason; do not erase a target because a result missed it.
