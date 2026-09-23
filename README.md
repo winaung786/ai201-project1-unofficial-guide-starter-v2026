@@ -230,6 +230,13 @@ The scorer was also applied to the saved real evaluation answers: all 15 before
 answers and all 15 after answers passed. The per-question record is in
 [`results/scorer_verification.md`](results/scorer_verification.md). This
 verification did not regenerate or change the original uncached model runs.
+The original before/after Markdown files still show blank automatic scorer
+columns because they were generated before `scorer.py` existed. To make this
+timing clear, `score_saved.py` applies the scorer to the saved live answers and
+writes separate [before](results/run_2026-09-22_1250_before_scored.md) and
+[after](results/run_2026-09-22_1252_after_scored.md) question-level score
+tables. These are **retrospective scores, not fresh model runs**. A fresh live
+rerun with the scorer active still requires a configured Gemini key and index.
 
 ### Run Log — Before
 

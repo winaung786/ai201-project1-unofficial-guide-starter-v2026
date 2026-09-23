@@ -6,6 +6,7 @@ from unittest.mock import patch
 import gate
 import run_eval
 import scorer
+import score_saved
 from store import Result
 
 
@@ -26,6 +27,12 @@ class EvaluationTests(unittest.TestCase):
 
     def test_week_two_scorer_rejects_an_empty_expectation(self):
         self.assertFalse(scorer.judge("Question", "", "Any answer", []))
+
+    def test_saved_scoring_rejects_incomplete_or_cached_runs(self):
+        with self.assertRaisesRegex(ValueError, "caching was disabled"):
+            score_saved.score_trials({"answer_cache": True, "runs": 3})
+        with self.assertRaisesRegex(ValueError, "at least three runs"):
+            score_saved.score_trials({"answer_cache": False, "runs": 2})
 
     def test_uncited_raw_answer_is_logged_but_user_sees_refusal(self):
         hit = Result(
