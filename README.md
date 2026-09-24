@@ -235,8 +235,8 @@ columns because they were generated before `scorer.py` existed. To make this
 timing clear, `score_saved.py` applies the scorer to the saved live answers and
 writes separate [before](results/run_2026-09-22_1250_before_scored.md) and
 [after](results/run_2026-09-22_1252_after_scored.md) question-level score
-tables. These are **retrospective scores, not fresh model runs**. A fresh live
-rerun with the scorer active still requires a configured Gemini key and index.
+tables. These are **retrospective scores, not fresh model runs**. A separate
+scorer-enabled live rerun was subsequently completed and is documented below.
 
 ### Run Log — Before
 
@@ -428,3 +428,80 @@ setting change, and drafted this evidence-based comparison. The model's real
 outputs and usage measurements are saved separately from Codex's judgment.
 No student-only work, class discussion, or independent student authorship of
 this Unit 2 text is claimed.
+
+### Scorer-enabled live rerun (September 24, 2026 UTC)
+
+After `scorer.py` was added, I rebuilt the existing index (88 documents, 91
+chunks), ran `python test.py` (10/10), and repeated the complete before/after
+evaluation using the same fixed questions, `campus_life` corpus,
+`gemini-3.5-flash-lite` model, MiniLM embeddings, 0.6 relevance cutoff, and
+original targets. These are **new live model runs**, not the retrospective
+scores above. `run_eval.py::main` saved the full retrieved text, distances,
+gate decisions, generated answers, cited filenames, per-answer scorer results,
+and model-reported tokens to these [before JSON](results/run_2026-09-23_1711_before_scored_live.json)
+and [after JSON](results/run_2026-09-23_1713_after_scored_live.json), with
+readable [before](results/run_2026-09-23_1711_before_scored_live.md) and
+[after](results/run_2026-09-23_1713_after_scored_live.md) transcripts.
+There were three separate uncached trials per covered question (15 model calls
+per phase) and three gate checks per unrelated question (15 refusals per phase).
+
+The first scorer-enabled baseline attempt hit Gemini's request rate limit after
+14 answers and saved no complete run log; it is **not** counted in either table.
+The successful commands below paced calls at eight per minute by overriding
+only `config.REQUESTS_PER_MINUTE` in the evaluation process. This did not alter
+retrieval, generation, scoring, questions, or the production configuration:
+
+```bash
+.venv/bin/python -c 'import config; config.REQUESTS_PER_MINUTE=8; import run_eval; run_eval.main()' --label before_scored_live --top-k 5
+.venv/bin/python -c 'import config; config.REQUESTS_PER_MINUTE=8; import run_eval; run_eval.main()' --label after_scored_live --top-k 1
+```
+
+**New live baseline — criterion-level log:**
+
+| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
+
+**New live after — criterion-level log:**
+
+| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
+
+For criterion 1, every retrieved context contained the requested facts.
+For criterion 2, every substantive answer cited a retrieved source. For
+criterion 3, every out-of-scope trial returned the exact gate refusal without
+a model call. Criterion 4 is deterministic: the unchanged `chunker.py` was
+checked three times in the earlier [before](results/unit2_offline_before.json)
+and [after](results/unit2_chunks_after.json) chunk inspections; it was **not**
+newly measured by the scorer-enabled answer runner. For criterion 5, I
+compared all 30 new answers against their cited original corpus files and
+found the requested details and any other factual claims supported. The
+simple `scorer.py::judge` also passed all 15 answers in each phase, but its
+substring check alone is not proof of criterion 5. No target was lowered.
+
+Representative **real output** for the Aldridge question, run 1, from
+`run_eval.py::run_once` through `app.py::ask_pipeline` and
+`generate.py::answer_from_chunks` (best cosine distance 0.262307; gate passed
+in both phases):
+
+```text
+Before, top-k 5: One wash in Aldridge Hall costs $1.75, and it is card only (housing_aldridge_hall.txt, housing_aldridge_hall_laundry.txt).
+After, top-k 1: One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).
+```
+
+Both answers cite source text containing the price and card-only rule. In
+these new trials the five criterion verdicts stayed MET, while top-k 1 again
+removed four lower-ranked chunks per covered question. Model-reported prompt
+tokens fell from **10,299 to 4,557** and total tokens from **10,832 to
+5,050** (5,782 fewer, about 53%). The scorer-enabled rerun supports the
+original diagnosis of unnecessary context, not an increase in pass rate;
+multi-document and near-topic questions remain untested as described above.

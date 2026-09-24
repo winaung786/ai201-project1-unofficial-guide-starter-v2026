@@ -64,9 +64,16 @@ near-topic cases remain untested. No score increase is claimed.
   review, single top-k improvement, comparison, and limitations remain in
   `README.md`. The earlier pre-calibration wording for criteria 4 and 5 now
   also appears directly underneath those criteria in `criteria.md`.
-- The final scorer and retrospective reports are published to this same GitHub
-  repository. A new live rerun with scorer-enabled raw logs would require a
-  Gemini key and rebuilt local index in this fresh checkout; it was not done.
+- A subsequent scorer-enabled **live** rerun used a rebuilt index and the
+  existing Gemini model. The two complete new JSON/Markdown logs in `results/`
+  record three uncached trials per fixed question, with `scored: true`,
+  15/15 scorer passes and 15/15 gate refusals before and after. The first
+  attempt hit a rate limit after 14 answers, produced no complete log, and
+  is not included in the results. The successful runs used only an evaluation
+  pacing override of eight requests per minute. `README.md` contains new
+  criterion-level tables and exact provenance, while retaining the original
+  run evidence and clearly labeled retrospective score reports.
+- The private `.env` and rebuilt local index remain untracked.
 
 To reproduce locally from this folder on Windows:
 

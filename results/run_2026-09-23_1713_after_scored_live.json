@@ -1,0 +1,773 @@
+{
+  "label": "after_scored_live",
+  "when_utc": "2026-09-24T00:13:40.318281+00:00",
+  "corpus": "campus_life",
+  "variant": "default",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "generation_model": "gemini-3.5-flash-lite",
+  "top_k": 1,
+  "threshold": 0.6,
+  "runs": 3,
+  "answer_cache": false,
+  "scored": true,
+  "covered_trials": [
+    {
+      "question": "How are juniors and seniors ordered in the housing lottery?",
+      "run": 1,
+      "answer": "In the housing lottery, juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "raw_model_answer": "In the housing lottery, juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "cited_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "retrieved_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "best_distance": 0.2249743587859856,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_housing_lottery.txt#0",
+          "source": "admin_housing_lottery.txt",
+          "text": "On the housing lottery\n\nThe housing lottery is not random in the way most people assume. Rising sophomores get a number drawn at random, but juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly. That means a senior who took summer courses reliably beats a senior who didn't. Numbers come out the second week of March and selection runs over four evenings.",
+          "distance": 0.2249743587859856,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How are juniors and seniors ordered in the housing lottery?",
+      "run": 2,
+      "answer": "In the housing lottery, juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "raw_model_answer": "In the housing lottery, juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "cited_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "retrieved_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "best_distance": 0.2249743587859856,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_housing_lottery.txt#0",
+          "source": "admin_housing_lottery.txt",
+          "text": "On the housing lottery\n\nThe housing lottery is not random in the way most people assume. Rising sophomores get a number drawn at random, but juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly. That means a senior who took summer courses reliably beats a senior who didn't. Numbers come out the second week of March and selection runs over four evenings.",
+          "distance": 0.2249743587859856,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How are juniors and seniors ordered in the housing lottery?",
+      "run": 3,
+      "answer": "Juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "raw_model_answer": "Juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly (admin_housing_lottery.txt).",
+      "cited_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "retrieved_sources": [
+        "admin_housing_lottery.txt"
+      ],
+      "best_distance": 0.2249743587859856,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_housing_lottery.txt#0",
+          "source": "admin_housing_lottery.txt",
+          "text": "On the housing lottery\n\nThe housing lottery is not random in the way most people assume. Rising sophomores get a number drawn at random, but juniors and seniors are ordered by accumulated credit hours first, and only tie-break randomly. That means a senior who took summer courses reliably beats a senior who didn't. Numbers come out the second week of March and selection runs over four evenings.",
+          "distance": 0.2249743587859856,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How long is the lunch wait at Kestrel Commons between 12:15 and 1:00?",
+      "run": 1,
+      "answer": "The wait time at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "raw_model_answer": "The wait time at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "cited_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "retrieved_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "best_distance": 0.17972664124248106,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "dining_kestrel_commons_followup.txt#0",
+          "source": "dining_kestrel_commons_followup.txt",
+          "text": "Re: Kestrel Commons\n\nAdding to what people have said about Kestrel Commons. The wait figure of 20 to 25 minutes between 12:15 and 1:00 matches what I've seen. If you're trying to eat between classes, go before 11:45 and it's a different building entirely.\n\nAlso worth saying: the salad bar wilts after 1:30. Nobody tells you this at orientation.",
+          "distance": 0.17972664124248106,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How long is the lunch wait at Kestrel Commons between 12:15 and 1:00?",
+      "run": 2,
+      "answer": "The wait at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "raw_model_answer": "The wait at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "cited_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "retrieved_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "best_distance": 0.17972664124248106,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "dining_kestrel_commons_followup.txt#0",
+          "source": "dining_kestrel_commons_followup.txt",
+          "text": "Re: Kestrel Commons\n\nAdding to what people have said about Kestrel Commons. The wait figure of 20 to 25 minutes between 12:15 and 1:00 matches what I've seen. If you're trying to eat between classes, go before 11:45 and it's a different building entirely.\n\nAlso worth saying: the salad bar wilts after 1:30. Nobody tells you this at orientation.",
+          "distance": 0.17972664124248106,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How long is the lunch wait at Kestrel Commons between 12:15 and 1:00?",
+      "run": 3,
+      "answer": "The lunch wait at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "raw_model_answer": "The lunch wait at Kestrel Commons between 12:15 and 1:00 is 20 to 25 minutes (dining_kestrel_commons_followup.txt).",
+      "cited_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "retrieved_sources": [
+        "dining_kestrel_commons_followup.txt"
+      ],
+      "best_distance": 0.17972664124248106,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "dining_kestrel_commons_followup.txt#0",
+          "source": "dining_kestrel_commons_followup.txt",
+          "text": "Re: Kestrel Commons\n\nAdding to what people have said about Kestrel Commons. The wait figure of 20 to 25 minutes between 12:15 and 1:00 matches what I've seen. If you're trying to eat between classes, go before 11:45 and it's a different building entirely.\n\nAlso worth saying: the salad bar wilts after 1:30. Nobody tells you this at orientation.",
+          "distance": 0.17972664124248106,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much does one wash cost in Aldridge Hall, and how do you pay?",
+      "run": 1,
+      "answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "raw_model_answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "cited_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "retrieved_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "best_distance": 0.2623065848537246,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "housing_aldridge_hall_laundry.txt#0",
+          "source": "housing_aldridge_hall_laundry.txt",
+          "text": "Laundry in Aldridge Hall\n\nMachines take $1.75 wash, $1.50 dry, card only. There are eight washers and six dryers for the building, which is the wrong ratio and means the dryers back up on Sunday evenings.\n\nBest time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm you will wait.",
+          "distance": 0.2623065848537246,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much does one wash cost in Aldridge Hall, and how do you pay?",
+      "run": 2,
+      "answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "raw_model_answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "cited_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "retrieved_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "best_distance": 0.2623065848537246,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "housing_aldridge_hall_laundry.txt#0",
+          "source": "housing_aldridge_hall_laundry.txt",
+          "text": "Laundry in Aldridge Hall\n\nMachines take $1.75 wash, $1.50 dry, card only. There are eight washers and six dryers for the building, which is the wrong ratio and means the dryers back up on Sunday evenings.\n\nBest time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm you will wait.",
+          "distance": 0.2623065848537246,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much does one wash cost in Aldridge Hall, and how do you pay?",
+      "run": 3,
+      "answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "raw_model_answer": "One wash in Aldridge Hall costs $1.75, and you must pay by card only (housing_aldridge_hall_laundry.txt).",
+      "cited_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "retrieved_sources": [
+        "housing_aldridge_hall_laundry.txt"
+      ],
+      "best_distance": 0.2623065848537246,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "housing_aldridge_hall_laundry.txt#0",
+          "source": "housing_aldridge_hall_laundry.txt",
+          "text": "Laundry in Aldridge Hall\n\nMachines take $1.75 wash, $1.50 dry, card only. There are eight washers and six dryers for the building, which is the wrong ratio and means the dryers back up on Sunday evenings.\n\nBest time to do laundry here is Tuesday or Wednesday morning. Sunday after 6pm you will wait.",
+          "distance": 0.2623065848537246,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How far ahead can I book a group study room, and how many blocks can I book per week?",
+      "run": 1,
+      "answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "raw_model_answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "cited_sources": [
+        "study_group_rooms.txt"
+      ],
+      "retrieved_sources": [
+        "study_group_rooms.txt"
+      ],
+      "best_distance": 0.19576778336546685,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "study_group_rooms.txt#0",
+          "source": "study_group_rooms.txt",
+          "text": "Booking a group study room\n\nRooms book two weeks ahead through the library site, in two-hour blocks, maximum two blocks per person per week. The limit is per person, so a group of four can chain together eight hours if they coordinate.\n\nRooms 210 and 211 have whiteboards that actually erase. The others don't and no amount of scrubbing helps.",
+          "distance": 0.19576778336546685,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How far ahead can I book a group study room, and how many blocks can I book per week?",
+      "run": 2,
+      "answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "raw_model_answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "cited_sources": [
+        "study_group_rooms.txt"
+      ],
+      "retrieved_sources": [
+        "study_group_rooms.txt"
+      ],
+      "best_distance": 0.19576778336546685,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "study_group_rooms.txt#0",
+          "source": "study_group_rooms.txt",
+          "text": "Booking a group study room\n\nRooms book two weeks ahead through the library site, in two-hour blocks, maximum two blocks per person per week. The limit is per person, so a group of four can chain together eight hours if they coordinate.\n\nRooms 210 and 211 have whiteboards that actually erase. The others don't and no amount of scrubbing helps.",
+          "distance": 0.19576778336546685,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How far ahead can I book a group study room, and how many blocks can I book per week?",
+      "run": 3,
+      "answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "raw_model_answer": "You can book a group study room two weeks ahead, and the maximum is two blocks per person per week (study_group_rooms.txt).",
+      "cited_sources": [
+        "study_group_rooms.txt"
+      ],
+      "retrieved_sources": [
+        "study_group_rooms.txt"
+      ],
+      "best_distance": 0.19576778336546685,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "study_group_rooms.txt#0",
+          "source": "study_group_rooms.txt",
+          "text": "Booking a group study room\n\nRooms book two weeks ahead through the library site, in two-hour blocks, maximum two blocks per person per week. The limit is per person, so a group of four can chain together eight hours if they coordinate.\n\nRooms 210 and 211 have whiteboards that actually erase. The others don't and no amount of scrubbing helps.",
+          "distance": 0.19576778336546685,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much printing credit does each student get per semester, and does it roll over?",
+      "run": 1,
+      "answer": "Every student gets $30 of printing credit per semester, and it does not roll over [admin_printing_quota.txt].",
+      "raw_model_answer": "Every student gets $30 of printing credit per semester, and it does not roll over [admin_printing_quota.txt].",
+      "cited_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "retrieved_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "best_distance": 0.3725832932135765,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_printing_quota.txt#0",
+          "source": "admin_printing_quota.txt",
+          "text": "On the printing quota\n\nEvery student gets $30 of printing per semester, which is roughly 600 black-and-white pages. It does not roll over. Colour costs eight times as much per page, which people discover after printing one poster.",
+          "distance": 0.3725832932135765,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much printing credit does each student get per semester, and does it roll over?",
+      "run": 2,
+      "answer": "Every student gets $30 of printing per semester [admin_printing_quota.txt]. It does not roll over [admin_printing_quota.txt].",
+      "raw_model_answer": "Every student gets $30 of printing per semester [admin_printing_quota.txt]. It does not roll over [admin_printing_quota.txt].",
+      "cited_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "retrieved_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "best_distance": 0.3725832932135765,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_printing_quota.txt#0",
+          "source": "admin_printing_quota.txt",
+          "text": "On the printing quota\n\nEvery student gets $30 of printing per semester, which is roughly 600 black-and-white pages. It does not roll over. Colour costs eight times as much per page, which people discover after printing one poster.",
+          "distance": 0.3725832932135765,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    },
+    {
+      "question": "How much printing credit does each student get per semester, and does it roll over?",
+      "run": 3,
+      "answer": "Every student gets $30 of printing credit per semester, and it does not roll over [admin_printing_quota.txt].",
+      "raw_model_answer": "Every student gets $30 of printing credit per semester, and it does not roll over [admin_printing_quota.txt].",
+      "cited_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "retrieved_sources": [
+        "admin_printing_quota.txt"
+      ],
+      "best_distance": 0.3725832932135765,
+      "gate_passed": true,
+      "refused": false,
+      "refusal_reason": null,
+      "retrieved_chunks": [
+        {
+          "label": "admin_printing_quota.txt#0",
+          "source": "admin_printing_quota.txt",
+          "text": "On the printing quota\n\nEvery student gets $30 of printing per semester, which is roughly 600 black-and-white pages. It does not roll over. Colour costs eight times as much per page, which people discover after printing one poster.",
+          "distance": 0.3725832932135765,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "scorer_passed": true
+    }
+  ],
+  "out_of_scope_trials": [
+    {
+      "question": "What is the capital of Mongolia?",
+      "run": 1,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8245932608090141,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8245932608090141,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "run": 1,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "admin_meal_plan_changes.txt"
+      ],
+      "best_distance": 0.9340105516273546,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "admin_meal_plan_changes.txt#0",
+          "source": "admin_meal_plan_changes.txt",
+          "text": "On the meal plan changes\n\nYou can change your meal plan tier once, in the first ten days of the semester. After that it's locked. Downgrading refunds the difference to your student account; upgrading bills you immediately.",
+          "distance": 0.9340105516273546,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "run": 1,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8858601397027365,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8858601397027365,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "run": 1,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "money_textbooks.txt"
+      ],
+      "best_distance": 0.8442317694714558,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "money_textbooks.txt#0",
+          "source": "money_textbooks.txt",
+          "text": "Textbooks without paying full price\n\nThe library holds one copy of most required texts on two-hour reserve. For courses where the text is used constantly that isn't enough, but for the reading-light courses it's genuinely all you need.\n\nThe campus store price-matches, which is not advertised anywhere and you have to ask at the counter with the other listing on your phone.",
+          "distance": 0.8442317694714558,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "run": 1,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8959977100766381,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8959977100766381,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "What is the capital of Mongolia?",
+      "run": 2,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8245932608090141,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8245932608090141,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "run": 2,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "admin_meal_plan_changes.txt"
+      ],
+      "best_distance": 0.9340105516273546,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "admin_meal_plan_changes.txt#0",
+          "source": "admin_meal_plan_changes.txt",
+          "text": "On the meal plan changes\n\nYou can change your meal plan tier once, in the first ten days of the semester. After that it's locked. Downgrading refunds the difference to your student account; upgrading bills you immediately.",
+          "distance": 0.9340105516273546,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "run": 2,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8858601397027365,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8858601397027365,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "run": 2,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "money_textbooks.txt"
+      ],
+      "best_distance": 0.8442317694714558,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "money_textbooks.txt#0",
+          "source": "money_textbooks.txt",
+          "text": "Textbooks without paying full price\n\nThe library holds one copy of most required texts on two-hour reserve. For courses where the text is used constantly that isn't enough, but for the reading-light courses it's genuinely all you need.\n\nThe campus store price-matches, which is not advertised anywhere and you have to ask at the counter with the other listing on your phone.",
+          "distance": 0.8442317694714558,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "run": 2,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8959977100766381,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8959977100766381,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "What is the capital of Mongolia?",
+      "run": 3,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8245932608090141,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8245932608090141,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I change the oil in a diesel engine?",
+      "run": 3,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "admin_meal_plan_changes.txt"
+      ],
+      "best_distance": 0.9340105516273546,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "admin_meal_plan_changes.txt#0",
+          "source": "admin_meal_plan_changes.txt",
+          "text": "On the meal plan changes\n\nYou can change your meal plan tier once, in the first ten days of the semester. After that it's locked. Downgrading refunds the difference to your student account; upgrading bills you immediately.",
+          "distance": 0.9340105516273546,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "Who won the 1994 World Cup?",
+      "run": 3,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8858601397027365,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8858601397027365,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "What is the recommended dosage of ibuprofen for a headache?",
+      "run": 3,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "money_textbooks.txt"
+      ],
+      "best_distance": 0.8442317694714558,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "money_textbooks.txt#0",
+          "source": "money_textbooks.txt",
+          "text": "Textbooks without paying full price\n\nThe library holds one copy of most required texts on two-hour reserve. For courses where the text is used constantly that isn't enough, but for the reading-light courses it's genuinely all you need.\n\nThe campus store price-matches, which is not advertised anywhere and you have to ask at the counter with the other listing on your phone.",
+          "distance": 0.8442317694714558,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    },
+    {
+      "question": "How do I write a for loop in Rust?",
+      "run": 3,
+      "answer": "I don't have enough information about that.",
+      "raw_model_answer": null,
+      "cited_sources": [],
+      "retrieved_sources": [
+        "course_hist_118_exams.txt"
+      ],
+      "best_distance": 0.8959977100766381,
+      "gate_passed": false,
+      "refused": true,
+      "refusal_reason": "relevance_gate",
+      "retrieved_chunks": [
+        {
+          "label": "course_hist_118_exams.txt#0",
+          "source": "course_hist_118_exams.txt",
+          "text": "HIST 118 Modern World History — assessment\n\nNo exams; two essays and a final project. Not curved.\n\nThe essay rubric is posted in week 2 and it's followed exactly — read it early.",
+          "distance": 0.8959977100766381,
+          "produced_by": "chunker.py::split_documents"
+        }
+      ],
+      "gate_refused": true
+    }
+  ],
+  "model_calls": 15,
+  "token_counts": {
+    "prompt": 4557,
+    "output": 493,
+    "total": 5050
+  }
+}
