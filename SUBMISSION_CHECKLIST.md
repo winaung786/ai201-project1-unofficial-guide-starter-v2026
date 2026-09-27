@@ -84,8 +84,9 @@ To reproduce locally from this folder on Windows:
 .\.venv\Scripts\python.exe -X utf8 -m unittest discover -s tests -v
 ```
 
-The private key remains in `.env`, which Git ignores. `RUNNING.md` contains
-instructions for recreating the environment on another machine.
+A Gemini key is needed in a local `.env` to repeat live model runs; Git ignores
+that file. `RUNNING.md` contains instructions for recreating the environment
+on another machine.
 
 ### Optional post-evaluation stretch iteration
 

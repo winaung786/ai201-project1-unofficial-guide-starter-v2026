@@ -429,7 +429,9 @@ posts, identified unrelated lower-ranked chunks, made the single retrieval
 setting change, and drafted this evidence-based comparison. The model's real
 outputs and usage measurements are saved separately from Codex's judgment.
 No student-only work, class discussion, or independent student authorship of
-this Unit 2 text is claimed.
+this Unit 2 text is claimed. Codex also prepared the supplemental probe,
+retrieval change, and evidence discussion in the optional stretch iteration
+below after the grading feedback.
 
 ### Scorer-enabled live rerun (September 24, 2026 UTC)
 
