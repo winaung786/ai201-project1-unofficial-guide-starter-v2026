@@ -11,7 +11,8 @@ the original targets preserved in [Criteria history](CRITERIA_HISTORY.md). See
 [Assignment review](ASSIGNMENT_REVIEW.md)
 for the requirement check, solo review, and recorded milestone-order limitations.
 Passing development tests is not the grading standard for this unit.
-No stretch features are claimed.
+One optional post-evaluation stretch iteration is documented at the end of
+the Unit 2 section. It does not replace the original before/after evidence.
 
 ## What This Does
 
@@ -400,9 +401,10 @@ unsupported question might pass the distance gate, and a question requiring
 facts from multiple source documents might suffer under top-k 1. Next I would
 try a separate, fixed multi-document and near-topic test set before adopting
 top-k 1 for wider use. I did not make another RAG change in this unit because
-the assignment calls for exactly one measured improvement and a repeated test
-of the same five original criteria. The sample does not prove that all future
-answers will be grounded.
+the required assignment phase called for exactly one measured improvement and
+a repeated test of the same five original criteria. A separate, subsequent
+optional stretch iteration is recorded below. The sample does not prove that
+all future answers will be grounded.
 
 ### What I'd Do Differently
 
@@ -503,5 +505,70 @@ these new trials the five criterion verdicts stayed MET, while top-k 1 again
 removed four lower-ranked chunks per covered question. Model-reported prompt
 tokens fell from **10,299 to 4,557** and total tokens from **10,832 to
 5,050** (5,782 fewer, about 53%). The scorer-enabled rerun supports the
-original diagnosis of unnecessary context, not an increase in pass rate;
-multi-document and near-topic questions remain untested as described above.
+original diagnosis of unnecessary context, not an increase in pass rate.
+The separate optional probe below tests near-topic gate behavior; questions
+requiring facts from multiple documents remain untested.
+
+### Optional stretch iteration — additional retrieval diagnosis and change
+
+This section was added **after** the required Unit 2 before/after evaluation
+and the scorer-enabled rerun. It is a separate supplemental experiment, not a
+revision of the five original questions, targets, or historical MET verdicts.
+The prior top-k reduction remains the first change. This is a **second,
+optional** measured retrieval change, made in response to the grading
+feedback's stretch category. Its retrieval-only probes made **zero model
+calls**; no new answer or scorer outcomes are claimed.
+
+I selected six additional answerable questions and five near-topic questions
+whose requested facts are absent from the same `campus_life` corpus. The
+repeatable probe is [`tools/stretch_probe.py`](tools/stretch_probe.py). It
+records each selected chunk's full text and cosine distance, five candidate
+chunks, gate decision, expected source, and required source phrase in the
+[before](results/stretch_probe_before.json) and
+[after](results/stretch_probe_after.json) JSON logs. The required source
+phrases are compared directly with the retrieved text, not generated answers.
+
+| Supplemental measurement | Before stretch | After stretch |
+|---|---:|---:|
+| Answerable questions with the required fact in the single selected chunk | 4/6 | 6/6 |
+| Near-topic unsupported questions refused by the relevance gate | 1/5 | 1/5 |
+| Original five covered questions passing the gate | 5/5 | 5/5 |
+| Original five unrelated questions refused by the gate | 5/5 | 5/5 |
+
+**Actual supplemental misses and pipeline stages:**
+
+| Question or group | Before evidence | Stage and mechanism | After |
+|---|---|---|---|
+| Kestrel weekend closing time | Top-1 `dining_kestrel_commons_followup.txt`, distance 0.428, has no weekend hours; the answer-bearing `dining_kestrel_commons.txt` was among five candidates at distance 0.505 | **Retrieval:** semantic top-1 preferred a short, same-name follow-up over the source with the `weekends` hours sentence | Answer-bearing source selected at 0.505; retrieval miss fixed |
+| Kestrel cash meal price | Top-1 `dining_north_kitchen.txt`, distance 0.472, is the wrong location; the answer-bearing Kestrel source was among five candidates at 0.541 | **Retrieval:** similar dining/payment wording outranked the exact named location | Kestrel source with `$12.50 cash` selected at 0.541; retrieval miss fixed |
+| Four of five new near-topic unsupported questions | Distances 0.392, 0.396, 0.422, and 0.515 all passed the 0.6 cutoff despite the requested facts being absent; the fifth, at 0.647, was refused | **Relevance gate:** a best cosine distance under 0.6 measures topical similarity, not whether the requested fact exists. This is a supplemental gate false positive; no generation outcome was tested | Still four gate false positives; **not fixed** by the retrieval change |
+
+Observed retrieval failure → diagnosis → change: the correct Kestrel chunks
+were present among five semantic candidates but were not ranked first →
+`store.py::search` now fetches up to five nearby vector candidates and
+reranks them by the fraction of distinct question content words found in each
+chunk. The rerank has a 0.15 cosine-distance window and leaves the original
+distance visible; the application still returns just one chunk with the
+unchanged model, corpus, and 0.6 gate. This is a modest lexical rerank within
+the existing vector retrieval system, not a new RAG application. These
+particular supplemental questions helped choose the 0.35 lexical weight, so
+the 6/6 is a measured result on this small set, **not** independent proof of
+general reliability.
+
+Commands run on the same rebuilt 91-chunk index:
+
+```bash
+.venv/bin/python tools/stretch_probe.py --label before
+.venv/bin/python tools/stretch_probe.py --label after
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+The stretch result improved **retrieval evidence**, not an answer-quality
+score: 4/6 became 6/6 while the two Kestrel distances remained their actual
+cosine values. The original fixed questions retained the same selected source
+and gate outcome in this retrieval-only check. No full Gemini evaluation was
+rerun after this optional change, so the original five criterion verdicts
+apply to the required earlier runs, not to new model answers. Near-topic gate
+false positives and possible regressions on unseen questions remain. Next I
+would test a separate fixed unsupported and multi-document set with actual
+answer review before modifying the gate, since that would be another change.

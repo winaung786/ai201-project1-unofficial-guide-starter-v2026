@@ -87,5 +87,18 @@ To reproduce locally from this folder on Windows:
 The private key remains in `.env`, which Git ignores. `RUNNING.md` contains
 instructions for recreating the environment on another machine.
 
+### Optional post-evaluation stretch iteration
+
+After the required one-change Unit 2 work, a separate retrieval-only probe
+found two real answer-bearing chunk misses in six additional covered questions.
+The optional lexical rerank of nearby semantic candidates changed that result
+from 4/6 to 6/6. Both full chunk/distance logs are saved as
+`results/stretch_probe_before.json` and `results/stretch_probe_after.json`.
+Four of five near-topic unsupported questions still pass the relevance gate;
+their failure stage and mechanism are stated in `README.md`. The original
+five-criterion live verdicts remain historical and were not relabeled or
+presented as a new Gemini run. The tests now include two focused rerank guards
+in addition to the original 17.
+
 Detailed evidence, solo checks, and milestone-order limitations are recorded
 in [ASSIGNMENT_REVIEW.md](ASSIGNMENT_REVIEW.md).

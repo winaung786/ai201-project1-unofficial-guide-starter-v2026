@@ -18,6 +18,7 @@ rest of the project if they were wrong:
 """
 
 import os
+import re
 import shutil
 from dataclasses import dataclass
 
@@ -49,6 +50,44 @@ _model = None
 # The model Chroma bundles. Anything else in config.EMBEDDING_MODEL means
 # "fetch that one from Hugging Face instead" — see `_embedder`.
 BUNDLED_MODEL = "all-MiniLM-L6-v2"
+
+# Optional Unit 2 stretch iteration: rerank nearby vector candidates by the
+# question's content words. Keep the original cosine distance visible and use
+# only nearby candidates, so an unrelated lexical hit cannot jump far ahead.
+_QUERY_STOPWORDS = frozenset(
+    "a an the is are was were do does did can how what when where why who "
+    "which in on for of to at by and or i my your me one much many long "
+    "far ahead per each get from it as with them between cost".split()
+)
+_LEXICAL_WEIGHT = 0.35
+_RERANK_DISTANCE_WINDOW = 0.15
+_RERANK_CANDIDATES = 5
+
+
+def _content_terms(value: str) -> set[str]:
+    return {
+        term
+        for term in re.findall(r"[a-z0-9]+", value.lower())
+        if len(term) > 1 and term not in _QUERY_STOPWORDS
+    }
+
+
+def _rerank(question: str, results: list[Result]) -> list[Result]:
+    """Order nearby semantic hits using unique question-term coverage."""
+    if not results:
+        return results
+    terms = _content_terms(question)
+    if not terms:
+        return results
+    best_distance = min(r.distance for r in results)
+
+    def rank(result: Result):
+        if result.distance > best_distance + _RERANK_DISTANCE_WINDOW:
+            return (float("inf"), result.distance)
+        coverage = len(terms & _content_terms(result.text)) / len(terms)
+        return (result.distance - _LEXICAL_WEIGHT * coverage, result.distance)
+
+    return sorted(results, key=rank)
 
 
 class _OnnxEmbedder:
@@ -185,9 +224,9 @@ def search(
     variant: str = "default",
 ) -> list[Result]:
     """
-    Retrieve the chunks closest in meaning to a question.
+    Retrieve semantic candidates and rerank nearby hits by question terms.
 
-    Returns them nearest-first, each with its distance.
+    Returns the best candidates, each with its original cosine distance.
     """
     top_k = top_k or config.TOP_K
     name = config.collection_name(corpus, variant)
@@ -201,7 +240,7 @@ def search(
 
     raw = collection.query(
         query_embeddings=embed([question]),
-        n_results=min(top_k, collection.count()),
+        n_results=min(max(top_k, _RERANK_CANDIDATES), collection.count()),
     )
 
     results: list[Result] = []
@@ -217,7 +256,7 @@ def search(
                 produced_by=str(meta.get("produced_by", "unknown")),
             )
         )
-    return results
+    return _rerank(question, results)[:top_k]
 
 
 def index_exists(corpus: str | None = None, variant: str = "default") -> bool:
