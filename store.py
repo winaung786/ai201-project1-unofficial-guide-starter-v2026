@@ -222,11 +222,14 @@ def search(
     top_k: int | None = None,
     corpus: str | None = None,
     variant: str = "default",
+    *,
+    lexical_rerank: bool = True,
 ) -> list[Result]:
     """
     Retrieve semantic candidates and rerank nearby hits by question terms.
 
     Returns the best candidates, each with its original cosine distance.
+    Set lexical_rerank=False to reproduce the pre-stretch vector-only baseline.
     """
     top_k = top_k or config.TOP_K
     name = config.collection_name(corpus, variant)
@@ -240,7 +243,10 @@ def search(
 
     raw = collection.query(
         query_embeddings=embed([question]),
-        n_results=min(max(top_k, _RERANK_CANDIDATES), collection.count()),
+        n_results=min(
+            max(top_k, _RERANK_CANDIDATES) if lexical_rerank else top_k,
+            collection.count(),
+        ),
     )
 
     results: list[Result] = []
@@ -256,7 +262,7 @@ def search(
                 produced_by=str(meta.get("produced_by", "unknown")),
             )
         )
-    return _rerank(question, results)[:top_k]
+    return (_rerank(question, results) if lexical_rerank else results)[:top_k]
 
 
 def index_exists(corpus: str | None = None, variant: str = "default") -> bool:

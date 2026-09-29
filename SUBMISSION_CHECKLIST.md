@@ -101,5 +101,22 @@ five-criterion live verdicts remain historical and were not relabeled or
 presented as a new Gemini run. The tests now include two focused rerank guards
 in addition to the original 17.
 
+### September 29 grading-feedback and reproducibility follow-up
+
+- A reviewer guide at the top of `README.md` maps both uncredited rubric
+  items to the existing measured stretch change and six individual
+  supplemental failure diagnoses. It does not claim an awarded grade.
+- Fixed the probe's before/after mode selection and prevented overwriting
+  historical logs. Production retrieval behavior is unchanged. All 20
+  automated tests passed, including a vector-only baseline regression test.
+- A new three-trial vector-only baseline was saved. The execution environment
+  then blocked unidentified embedding-runtime telemetry; no new paired after
+  run completed. The unpaired file is labeled as such in the README. The
+  earlier completed before/after logs remain unchanged and support the
+  documented stretch measurement.
+- The five original targets, original questions, corpus, and original live
+  model transcripts remain unchanged. The instructor must determine whether
+  the supplemental diagnoses satisfy the original-miss rubric item.
+
 Detailed evidence, solo checks, and milestone-order limitations are recorded
 in [ASSIGNMENT_REVIEW.md](ASSIGNMENT_REVIEW.md).

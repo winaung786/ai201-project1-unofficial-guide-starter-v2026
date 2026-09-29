@@ -14,6 +14,21 @@ Passing development tests is not the grading standard for this unit.
 One optional post-evaluation stretch iteration is documented at the end of
 the Unit 2 section. It does not replace the original before/after evidence.
 
+## Unit 2 grading feedback — reviewer guide
+
+The supplied 13/17 feedback quotes the earlier statement "No stretch features
+are claimed." The current submission includes a later, separate stretch
+experiment. The two previously uncredited items map to this evidence:
+
+| Rubric item | Evidence in the current submission | Scope and limitation |
+|---|---|---|
+| Every miss names a pipeline stage | [Individual supplemental misses](#individual-supplemental-misses-and-pipeline-stages) identify **Retrieval** for two missing-answer contexts and **Relevance gate** for four false accepts, with a mechanism and source evidence for each | These are real supplemental failures. All five original criteria passed; none has been falsely relabeled MISSED. Whether supplemental diagnoses qualify for this rubric item requires instructor review. |
+| A second measured improvement | [Optional stretch iteration](#optional-stretch-iteration--additional-retrieval-diagnosis-and-change), with [before JSON](results/stretch_probe_before.json) and [after JSON](results/stretch_probe_after.json): answer-bearing top-1 chunks **4/6 → 6/6** after lexical reranking | This is a second code change after the original top-k reduction, not the scorer-only rerun. It measures retrieval, not newly generated answers. |
+
+The original five-criterion tables, targets, and live model transcripts remain
+unchanged. This guide requests review of the evidence; it does not claim that
+the instructor has awarded additional points or that the grade is now 17/17.
+
 ## What This Does
 
 The Unofficial Guide searches 88 fictional student posts supplied by CodePath.
@@ -323,6 +338,28 @@ The before answers happened to distinguish them correctly in all 15 trials.
 This is an observed context-quality defect and a future answer-confusion risk,
 not a fabricated missed criterion.
 
+#### Individual supplemental misses and pipeline stages
+
+These later diagnostics are separate from the five original acceptance
+criteria. Every row below represents an observed supplemental failure in
+[`stretch_probe_before.json`](results/stretch_probe_before.json), not a
+fabricated original-criterion miss. The corresponding
+[after evidence](results/stretch_probe_after.json) records the outcome.
+
+| Supplemental question | Pipeline stage | Observed failure mechanism | Outcome after the stretch change |
+|---|---|---|---|
+| When does Kestrel Commons close on weekends? | **Retrieval** (`store.py::search`) | Top-1 selected the follow-up at distance 0.428, which lacks weekend hours. The main Kestrel post, present among candidates at 0.505, contains `9:00am to 8:00pm weekends`. The failure is before generation. | Correct main post selected; requested fact present. |
+| What is the cost of a cash meal at Kestrel Commons? | **Retrieval** (`store.py::search`) | A North Kitchen post ranked first at 0.472 despite being the wrong location. The Kestrel post at 0.541 contains `$12.50 cash`. Similar dining/payment language outranked the requested location. | Correct Kestrel post selected; requested fact present. |
+| What time does Aldridge Hall's laundry room close? | **Relevance gate** (`gate.py::check`) | The laundry post discusses prices and busy periods, not a closing time. Its 0.392 distance passes the 0.6 cutoff because the topic matches. | Still passes the gate: unresolved gate false positive. |
+| What is the cancellation fee for a group study room? | **Relevance gate** (`gate.py::check`) | The room post provides reservation limits, not a cancellation fee. Distance 0.396 passes the cutoff without checking whether the fee exists. | Still passes the gate: unresolved gate false positive. |
+| What is the Kestrel Commons dinner menu on Fridays? | **Relevance gate** (`gate.py::check`) | The Kestrel post mentions general dining options, not a Friday dinner menu. Topic similarity gives distance 0.422, below the cutoff. | Still passes the gate: unresolved gate false positive. |
+| How much is the housing lottery application fee? | **Relevance gate** (`gate.py::check`) | The lottery post explains ordering and dates, not an application fee. Distance 0.515 passes the cutoff even though the requested fact is absent. | Still passes the gate: unresolved gate false positive. |
+
+The four gate failures do **not** establish that Gemini hallucinated: these
+probes stopped at retrieval/gating and made zero generation calls. Tightening
+the cutoff without further testing could also reject valid paraphrases. That
+additional gate change was not made.
+
 ### The Improvement — Selected Before Implementation
 
 Observed failure → diagnosis → chosen improvement: irrelevant other-building
@@ -574,3 +611,25 @@ apply to the required earlier runs, not to new model answers. Near-topic gate
 false positives and possible regressions on unseen questions remain. Next I
 would test a separate fixed unsupported and multi-document set with actual
 answer review before modifying the gate, since that would be another change.
+
+### September 29 reproducibility check
+
+The previous probe's `--label before` only labeled its output; after the
+stretch implementation it would still use the reranker. That is now corrected:
+`before` explicitly calls `store.py::search(..., lexical_rerank=False)`, and
+`after` enables the existing reranker. Ordinary application retrieval keeps
+its existing behavior. New probe runs default to three trials and use
+timestamped, exclusively created files so historical evidence cannot be
+overwritten. A regression test guards the mode switch; all **20 automated
+tests passed** in this recheck.
+
+The index rebuilt with 88 documents and 91 chunks. The new
+[unpaired baseline file](results/stretch_probe_before_20260929T164944840663Z.json)
+records vector-only retrieval at 4/6 and near-topic gate refusals at 1/5 in
+each of three trials. The command sequence was then blocked by the execution
+environment because the embedding runtime attempted an unidentified telemetry
+request to a Microsoft host. It was not bypassed. No matching new after log
+was produced, so this is **not a completed new paired evaluation**. The
+completed September 27 supplemental before/after files linked above remain
+the evidence for 4/6 → 6/6. No live Gemini rerun or new answer-score claim is
+made here.

@@ -67,9 +67,10 @@ SUPPLEMENTAL_UNANSWERABLE = [
 ]
 
 
-def summarize(question, source=None, facts=()):
-    chosen = search(question, top_k=1)
-    candidates = search(question, top_k=5)
+def summarize(question, source=None, facts=(), *, lexical_rerank):
+    chosen = search(question, top_k=1, lexical_rerank=lexical_rerank)
+    # Always expose the same vector-only candidate order for diagnosis.
+    candidates = search(question, top_k=5, lexical_rerank=False)
     decision = check(chosen)
     first = chosen[0] if chosen else None
     supported = bool(
@@ -94,47 +95,60 @@ def summarize(question, source=None, facts=()):
     }
 
 
+def collect_trial(run, lexical_rerank):
+    covered = [
+        summarize(row["question"], row["source"], row["facts"], lexical_rerank=lexical_rerank)
+        for row in SUPPLEMENTAL_COVERED
+    ]
+    unsupported = [summarize(q, lexical_rerank=lexical_rerank) for q in SUPPLEMENTAL_UNANSWERABLE]
+    original_covered = [summarize(row["question"], lexical_rerank=lexical_rerank) for row in ORIGINAL_QUESTIONS]
+    original_out = [summarize(q, lexical_rerank=lexical_rerank) for q in OUT_OF_SCOPE]
+    return {
+        "run": run,
+        "supplemental_covered": covered,
+        "supplemental_unanswerable": unsupported,
+        "original_covered_retrieval": original_covered,
+        "original_unanswerable_gate": original_out,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--label", required=True, choices=("before", "after"))
+    parser.add_argument("--runs", type=int, default=3)
     args = parser.parse_args()
-    covered = [
-        summarize(row["question"], row["source"], row["facts"])
-        for row in SUPPLEMENTAL_COVERED
-    ]
-    unsupported = [summarize(q) for q in SUPPLEMENTAL_UNANSWERABLE]
-    original_covered = [summarize(row["question"]) for row in ORIGINAL_QUESTIONS]
-    original_out = [summarize(q) for q in OUT_OF_SCOPE]
+    if args.runs < 1:
+        parser.error("--runs must be positive")
+    lexical_rerank = args.label == "after"
+    started = datetime.now(timezone.utc)
     data = {
         "label": f"stretch_{args.label}",
-        "when_utc": datetime.now(timezone.utc).isoformat(),
+        "when_utc": started.isoformat(),
         "corpus": config.CORPUS,
         "embedding_model": config.EMBEDDING_MODEL,
         "generation_model": config.MODEL,
         "top_k": config.TOP_K,
         "threshold": config.THRESHOLD,
         "generated_answers": 0,
-        "supplemental_covered": covered,
-        "supplemental_unanswerable": unsupported,
-        "original_covered_retrieval": original_covered,
-        "original_unanswerable_gate": original_out,
+        "lexical_rerank": lexical_rerank,
+        "retrieval_mode": "lexical_rerank" if lexical_rerank else "vector_only",
+        "runs": args.runs,
+        "trials": [collect_trial(run, lexical_rerank) for run in range(1, args.runs + 1)],
     }
-    path = config.RESULTS_DIR / f"stretch_probe_{args.label}.json"
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    path = config.RESULTS_DIR / f"stretch_probe_{args.label}_{started:%Y%m%dT%H%M%S%fZ}.json"
+    # Exclusive creation preserves both historical logs and previous reruns.
+    with path.open("x") as output:
+        output.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print(f"Saved {path}")
-    print(
-        f"Supplemental answer-bearing top-1 chunks: "
-        f"{sum(x['supported_in_selected_chunk'] for x in covered)}/{len(covered)}"
-    )
-    print(
-        f"Supplemental unsupported questions refused by gate: "
-        f"{sum(not x['gate_passed'] for x in unsupported)}/{len(unsupported)}"
-    )
-    for row in covered:
+    print(f"Mode: {data['retrieval_mode']}; generated answers: 0")
+    for trial in data["trials"]:
+        covered = trial["supplemental_covered"]
+        unsupported = trial["supplemental_unanswerable"]
         print(
-            f"{'PASS' if row['supported_in_selected_chunk'] else 'MISS'} "
-            f"{row['selected_distance']:.3f} {row['selected_source']}: "
-            f"{row['question']}"
+            f"Run {trial['run']}: answer-bearing top-1 "
+            f"{sum(x['supported_in_selected_chunk'] for x in covered)}/{len(covered)}; "
+            f"unsupported gate refusals "
+            f"{sum(not x['gate_passed'] for x in unsupported)}/{len(unsupported)}"
         )
 
 
