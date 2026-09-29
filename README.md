@@ -28,6 +28,9 @@ experiment. The two previously uncredited items map to this evidence:
 The original five-criterion tables, targets, and live model transcripts remain
 unchanged. This guide requests review of the evidence; it does not claim that
 the instructor has awarded additional points or that the grade is now 17/17.
+An additional three-trial pair is linked in the
+[telemetry retry record](#telemetry-disabled-retry--recorded-results-and-execution-limit),
+with its process-completion limitation explicitly stated.
 
 ## What This Does
 
@@ -633,3 +636,40 @@ was produced, so this is **not a completed new paired evaluation**. The
 completed September 27 supplemental before/after files linked above remain
 the evidence for 4/6 → 6/6. No live Gemini rerun or new answer-score claim is
 made here.
+
+### Telemetry-disabled retry — recorded results and execution limit
+
+With the user's approval, `store.py::_OnnxEmbedder.__init__` now calls
+`onnxruntime.disable_telemetry_events()` before creating an embedding session.
+Chroma's separate anonymized telemetry setting was already off. This runtime
+setting does not change the corpus, model weights, retrieval scoring, gate,
+or questions; it is not a third RAG improvement.
+
+The retry wrote both complete three-trial data files:
+[vector-only before](results/stretch_probe_before_20260929T171033457577Z.json)
+and [lexical-reranked after](results/stretch_probe_after_20260929T171041558516Z.json).
+The console reported every row below, and the saved JSON was checked for all
+trial records. These are retrieval/gate executions with **zero generated
+answers**, not live Gemini answer evaluations.
+
+| Measurement | Before run 1 | Before run 2 | Before run 3 | After run 1 | After run 2 | After run 3 |
+|---|---:|---:|---:|---:|---:|---:|
+| Supplemental answer-bearing top-1 chunks | 4/6 | 4/6 | 4/6 | 6/6 | 6/6 | 6/6 |
+| Supplemental unsupported questions refused by gate | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 |
+| Original covered questions passing gate | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 |
+| Original unrelated questions refused by gate | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 | 5/5 |
+
+The remaining four near-topic gate false positives are unchanged. Repeated
+deterministic retrieval on the same questions checks repeatability; it does
+not establish performance on unseen questions. All **20 automated tests
+passed** separately, with a successful test-process exit.
+
+**Execution limitation:** after both files and their summaries were written,
+the execution environment again denied an unidentified runtime telemetry
+request to an untrusted Microsoft endpoint. The ONNX opt-out therefore did
+not establish that all runtime telemetry was disabled. No clean final exit
+was confirmed for the paired evaluation command. The saved measurements are
+preserved as observed output, but this run is **not** described as a cleanly
+completed process or a resolved telemetry issue. The blocked request was not
+bypassed or authorized for disclosure. The earlier unpaired attempt above
+is retained as history, and the original Unit 2 live logs remain unchanged.

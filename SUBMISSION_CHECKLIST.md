@@ -118,5 +118,18 @@ in addition to the original 17.
   model transcripts remain unchanged. The instructor must determine whether
   the supplemental diagnoses satisfy the original-miss rubric item.
 
+### User-approved telemetry opt-out and retry
+
+- Added ONNX Runtime's explicit telemetry opt-out before embedding sessions;
+  Chroma's existing telemetry opt-out remains in place.
+- The retry saved both new three-trial probe files: before retrieval 4/6 in
+  every trial, after 6/6 in every trial; near-topic gate refusals stayed 1/5.
+  These are real saved retrieval/gate outputs with no generated answers.
+- All 20 automated tests passed separately with a successful exit.
+- The evaluation command's final completion was again blocked by automatic
+  review of unidentified runtime telemetry. This remains an execution
+  limitation, not a resolved blocker. The README distinguishes the complete
+  saved trial records from the unconfirmed final process exit.
+
 Detailed evidence, solo checks, and milestone-order limitations are recorded
 in [ASSIGNMENT_REVIEW.md](ASSIGNMENT_REVIEW.md).

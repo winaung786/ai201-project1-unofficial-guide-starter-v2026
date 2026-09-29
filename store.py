@@ -100,6 +100,11 @@ class _OnnxEmbedder:
     """
 
     def __init__(self):
+        import onnxruntime
+
+        # Chroma's anonymized_telemetry=False does not control ONNX Runtime.
+        # Disable its separate optional telemetry before creating a session.
+        onnxruntime.disable_telemetry_events()
         from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 
         self._ef = ONNXMiniLM_L6_V2()
