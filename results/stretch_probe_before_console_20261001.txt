@@ -1,0 +1,5 @@
+Saved /workspace/scratch/2d590a1943ae/unit2-audit/results/stretch_probe_before_20261001T032137765435Z.json
+Mode: vector_only; generated answers: 0
+Run 1: answer-bearing top-1 4/6; unsupported gate refusals 1/5
+Run 2: answer-bearing top-1 4/6; unsupported gate refusals 1/5
+Run 3: answer-bearing top-1 4/6; unsupported gate refusals 1/5

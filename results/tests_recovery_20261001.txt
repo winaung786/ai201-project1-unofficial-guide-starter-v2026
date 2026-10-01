@@ -1,0 +1,32 @@
+test_atomic_write_failure_preserves_previous_checkpoint (test_eval_recovery.RecoveryTests.test_atomic_write_failure_preserves_previous_checkpoint) ... ok
+test_fourteen_answers_survive_and_resume_skips_completed_trials (test_eval_recovery.RecoveryTests.test_fourteen_answers_survive_and_resume_skips_completed_trials) ... ok
+test_resume_rejects_changed_settings_or_corpus_before_any_trial (test_eval_recovery.RecoveryTests.test_resume_rejects_changed_settings_or_corpus_before_any_trial) ... ok
+test_scorer_failure_keeps_raw_answer_and_resumes_without_regeneration (test_eval_recovery.RecoveryTests.test_scorer_failure_keeps_raw_answer_and_resumes_without_regeneration) ... ok
+test_429_retries_are_bounded_and_counted_as_attempts (test_eval_recovery.RetryTests.test_429_retries_are_bounded_and_counted_as_attempts) ... ok
+test_pacing_rejects_nonpositive_values (test_eval_recovery.RetryTests.test_pacing_rejects_nonpositive_values) ... ok
+test_duplicate_or_missing_trials_are_incomplete (test_eval_summary.SummaryTests.test_duplicate_or_missing_trials_are_incomplete) ... ok
+test_saved_scoring_rejects_incomplete_or_cached_runs (test_evaluation.EvaluationTests.test_saved_scoring_rejects_incomplete_or_cached_runs) ... ok
+test_uncited_raw_answer_is_logged_but_user_sees_refusal (test_evaluation.EvaluationTests.test_uncited_raw_answer_is_logged_but_user_sees_refusal) ... ok
+test_week_two_scorer_rejects_an_empty_expectation (test_evaluation.EvaluationTests.test_week_two_scorer_rejects_an_empty_expectation) ... ok
+test_week_two_scorer_uses_required_expected_phrase (test_evaluation.EvaluationTests.test_week_two_scorer_uses_required_expected_phrase) ... ok
+test_campus_corpus_has_no_lost_body_text (test_pipeline.ChunkTests.test_campus_corpus_has_no_lost_body_text) ... ok
+test_cleaning_preserves_content_and_paragraphs (test_pipeline.ChunkTests.test_cleaning_preserves_content_and_paragraphs) ... ok
+test_invalid_settings_fail_instead_of_looping (test_pipeline.ChunkTests.test_invalid_settings_fail_instead_of_looping) ... ok
+test_long_post_keeps_every_sentence_and_repeats_title (test_pipeline.ChunkTests.test_long_post_keeps_every_sentence_and_repeats_title) ... ok
+test_oversized_sentence_is_preserved_and_no_overlap_only_tail (test_pipeline.ChunkTests.test_oversized_sentence_is_preserved_and_no_overlap_only_tail) ... ok
+test_short_post_keeps_title_and_paragraphs (test_pipeline.ChunkTests.test_short_post_keeps_title_and_paragraphs) ... ok
+test_zero_overlap_and_empty_documents (test_pipeline.ChunkTests.test_zero_overlap_and_empty_documents) ... ok
+test_empty_and_boundary_are_refused (test_pipeline.GateTests.test_empty_and_boundary_are_refused) ... ok
+test_model_refusal_sets_refused_flag (test_pipeline.GateTests.test_model_refusal_sets_refused_flag) ... ok
+test_refusal_never_calls_the_model (test_pipeline.GateTests.test_refusal_never_calls_the_model) ... ok
+test_relevant_question_uses_retrieved_evidence (test_pipeline.GateTests.test_relevant_question_uses_retrieved_evidence) ... ok
+test_uncited_model_answer_is_refused (test_pipeline.GateTests.test_uncited_model_answer_is_refused) ... ok
+test_model_refusal_is_reported_consistently_over_http (test_pipeline.ServeTests.test_model_refusal_is_reported_consistently_over_http) ... ok
+test_far_lexical_hit_cannot_override_near_semantic_hit (test_retrieval_stretch.StretchRerankTests.test_far_lexical_hit_cannot_override_near_semantic_hit) ... ok
+test_search_can_reproduce_vector_only_baseline_without_reranking (test_retrieval_stretch.StretchRerankTests.test_search_can_reproduce_vector_only_baseline_without_reranking) ... ok
+test_weekend_hours_chunk_beats_named_followup_without_hours (test_retrieval_stretch.StretchRerankTests.test_weekend_hours_chunk_beats_named_followup_without_hours) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.173s
+
+OK

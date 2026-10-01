@@ -75,7 +75,7 @@ def render(paths):
             f"{row['scorer']} | {row['calls']} | {tokens['prompt']:,} | "
             f"{tokens['output']:,} | {tokens['total']:,} |"
         )
-    lines += ["", "## Provenance", "", "| JSON file | Recorded start UTC | SHA-256 |", "|---|---|---|"]
+    lines += ["", "## Provenance", "", "| JSON file | Recorded UTC timestamp | SHA-256 |", "|---|---|---|"]
     for row in rows:
         lines.append(f"| `{row['path'].name}` | {row['when']} | `{row['sha256']}` |")
     return "\n".join(lines) + "\n"

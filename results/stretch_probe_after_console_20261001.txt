@@ -1,0 +1,5 @@
+Saved /workspace/scratch/2d590a1943ae/unit2-audit/results/stretch_probe_after_20261001T032237698683Z.json
+Mode: lexical_rerank; generated answers: 0
+Run 1: answer-bearing top-1 6/6; unsupported gate refusals 1/5
+Run 2: answer-bearing top-1 6/6; unsupported gate refusals 1/5
+Run 3: answer-bearing top-1 6/6; unsupported gate refusals 1/5
