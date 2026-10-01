@@ -4,8 +4,9 @@ Win Aung · Corpus: `campus_life` · Prepared with Codex assistance
 
 Repository: https://github.com/winaung786/ai201-project1-unofficial-guide-starter-v2026
 
-**Status:** The technical implementation and required README evidence are
-complete, and real calibration and a sourced model answer are recorded.
+**Status:** The original Unit 1/2 evidence is preserved. The current feedback
+follow-up is documented below, including evaluation recovery and a separate
+post-stretch live evaluation. Real calibration and a sourced model answer are recorded.
 Criteria 4–5 were written by the student and pressure-tested with Claude, with
 the original targets preserved in [Criteria history](CRITERIA_HISTORY.md). See
 [Assignment review](ASSIGNMENT_REVIEW.md)
@@ -16,21 +17,26 @@ the Unit 2 section. It does not replace the original before/after evidence.
 
 ## Unit 2 grading feedback — reviewer guide
 
-The supplied 13/17 feedback quotes the earlier statement "No stretch features
-are claimed." The current submission includes a later, separate stretch
-experiment. The two previously uncredited items map to this evidence:
+The latest instructor feedback awards 13 points. It accepts the original
+five-criterion before/after evidence and identifies two uncredited rubric items:
 
 | Rubric item | Evidence in the current submission | Scope and limitation |
 |---|---|---|
-| Every miss names a pipeline stage | [Individual supplemental misses](#individual-supplemental-misses-and-pipeline-stages) identify **Retrieval** for two missing-answer contexts and **Relevance gate** for four false accepts, with a mechanism and source evidence for each | These are real supplemental failures. All five original criteria passed; none has been falsely relabeled MISSED. Whether supplemental diagnoses qualify for this rubric item requires instructor review. |
-| A second measured improvement | [Optional stretch iteration](#optional-stretch-iteration--additional-retrieval-diagnosis-and-change), with [before JSON](results/stretch_probe_before.json) and [after JSON](results/stretch_probe_after.json): answer-bearing top-1 chunks **4/6 → 6/6** after lexical reranking | This is a second code change after the original top-k reduction, not the scorer-only rerun. It measures retrieval, not newly generated answers. |
+| Every miss names a pipeline stage | All five original criteria passed. [Supplemental diagnoses](#individual-supplemental-misses-and-pipeline-stages) remain documented separately | The instructor explicitly awarded zero for an empty original miss list. Passing criteria cannot honestly be relabeled as failures to obtain these points. |
+| A second measured improvement | [Optional stretch iteration](#optional-stretch-iteration--additional-retrieval-diagnosis-and-change) records the lexical change and retrieval-only before/after evidence. A full post-stretch evaluation is documented in the follow-up below | The instructor correctly identified that retrieval probes alone did not supply a third five-criterion, three-run log. Only completed live trials plus source/chunk review count as that missing evidence. |
 
 The original five-criterion tables, targets, and live model transcripts remain
 unchanged. This guide requests review of the evidence; it does not claim that
 the instructor has awarded additional points or that the grade is now 17/17.
-An additional three-trial pair is linked in the
-[telemetry retry record](#telemetry-disabled-retry--recorded-results-and-execution-limit),
-with its process-completion limitation explicitly stated.
+Earlier telemetry-limited attempts remain in the [historical retry record](#telemetry-disabled-retry--recorded-results-and-execution-limit).
+Live-run counts and token totals have one generated canonical location:
+[evaluation summary](results/evaluation_summary.md). The original and later
+scorer-enabled runs are distinct measurements, not interchangeable totals.
+README is the canonical location for manual criterion verdicts and diagnoses;
+other review/checklist documents link here instead of restating those facts.
+The [October 1 follow-up](#october-1-feedback-follow-up) now supplies the third
+full criterion table and fresh paired probes. Its [automated test output](results/tests_recovery_20261001.txt)
+records all 27 tests passing, including the new recovery checks.
 
 ## What This Does
 
@@ -41,8 +47,8 @@ Chroma, rejects distant matches before a model call, and asks Gemini to answer
 only from retrieved documents with filenames. These course documents are
 practice material, not verified advice about an actual university.
 
-On this Windows machine, the virtual environment is already in `.venv`.
-Run these commands from the project folder:
+On Windows, after creating the environment as described in `RUNNING.md`,
+run these commands from the project folder:
 
 ```powershell
 .\.venv\Scripts\python.exe -X utf8 app.py index
@@ -421,8 +427,11 @@ covered refusal or borderline result was counted as a pass.
 | Gate refusals for unrelated questions | 15/15 | 15/15 | Unchanged |
 | Retrieved chunks handed to generation per covered question | 5 | 1 | Four lower-ranked chunks no longer reach the model |
 | Model calls for 15 covered questions | 15 | 15 | Both are uncached live runs |
-| Prompt tokens reported by the model | 10,299 | 4,557 | 5,742 fewer |
-| Total tokens reported by the model | 10,842 | 5,047 | 5,795 fewer, about 53% |
+
+Model-reported prompt/output/total token counts are generated directly from
+each JSON in the [canonical evaluation summary](results/evaluation_summary.md),
+under the original `before` and `after` rows. They show reduced token use for
+this pair; the later scorer-enabled pair has its own separate rows.
 
 The selected change **succeeded at its measured target**: the other-building
 chunks no longer entered the prompt and model-reported token use fell. It did
@@ -491,34 +500,20 @@ per phase) and three gate checks per unrelated question (15 refusals per phase).
 
 The first scorer-enabled baseline attempt hit Gemini's request rate limit after
 14 answers and saved no complete run log; it is **not** counted in either table.
-The successful commands below paced calls at eight per minute by overriding
-only `config.REQUESTS_PER_MINUTE` in the evaluation process. This did not alter
-retrieval, generation, scoring, questions, or the production configuration:
+The successful historical commands below paced calls at eight per minute by
+overriding only `config.REQUESTS_PER_MINUTE` in the evaluation process. These
+are recorded provenance, not the recommended command today. The supported
+`--requests-per-minute 8` option now replaces this ad hoc override:
 
 ```bash
 .venv/bin/python -c 'import config; config.REQUESTS_PER_MINUTE=8; import run_eval; run_eval.main()' --label before_scored_live --top-k 5
 .venv/bin/python -c 'import config; config.REQUESTS_PER_MINUTE=8; import run_eval; run_eval.main()' --label after_scored_live --top-k 1
 ```
 
-**New live baseline — criterion-level log:**
-
-| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
-|---|---|---:|---:|---:|---|
-| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
-| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
-| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
-| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
-| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
-
-**New live after — criterion-level log:**
-
-| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
-|---|---|---:|---:|---:|---|
-| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
-| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
-| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
-| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
-| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
+The manual review of this later pair produced the same per-run criterion
+counts and verdicts as the [original before table](#run-log--before) and
+[original after table](#run-log--after). The automatic counts and model usage
+for this separate live pair are in the [generated summary](results/evaluation_summary.md).
 
 For criterion 1, every retrieved context contained the requested facts.
 For criterion 2, every substantive answer cited a retrieved source. For
@@ -544,9 +539,10 @@ After, top-k 1: One wash in Aldridge Hall costs $1.75, and you must pay by card 
 
 Both answers cite source text containing the price and card-only rule. In
 these new trials the five criterion verdicts stayed MET, while top-k 1 again
-removed four lower-ranked chunks per covered question. Model-reported prompt
-tokens fell from **10,299 to 4,557** and total tokens from **10,832 to
-5,050** (5,782 fewer, about 53%). The scorer-enabled rerun supports the
+removed four lower-ranked chunks per covered question. The generated summary's
+`before_scored_live` and `after_scored_live` rows record this pair's token
+reduction. These totals differ from the original pair because the output
+lengths differ. The scorer-enabled rerun supports the
 original diagnosis of unnecessary context, not an increase in pass rate.
 The separate optional probe below tests near-topic gate behavior; questions
 requiring facts from multiple documents remain untested.
@@ -608,9 +604,10 @@ Commands run on the same rebuilt 91-chunk index:
 The stretch result improved **retrieval evidence**, not an answer-quality
 score: 4/6 became 6/6 while the two Kestrel distances remained their actual
 cosine values. The original fixed questions retained the same selected source
-and gate outcome in this retrieval-only check. No full Gemini evaluation was
-rerun after this optional change, so the original five criterion verdicts
-apply to the required earlier runs, not to new model answers. Near-topic gate
+and gate outcome in this retrieval-only check. At the time of this probe,
+no full Gemini evaluation had been rerun after the optional change. The
+later full evaluation is recorded separately below; historical verdicts
+still describe their original runs. Near-topic gate
 false positives and possible regressions on unseen questions remain. Next I
 would test a separate fixed unsupported and multi-document set with actual
 answer review before modifying the gate, since that would be another change.
@@ -673,3 +670,169 @@ preserved as observed output, but this run is **not** described as a cleanly
 completed process or a resolved telemetry issue. The blocked request was not
 bypassed or authorized for disclosure. The earlier unpaired attempt above
 is retained as history, and the original Unit 2 live logs remain unchanged.
+
+### October 1 feedback follow-up
+
+The instructor requested recoverable evaluation, reproducible pacing,
+consistent summary numbers, and a third full log after the lexical rerank.
+This follow-up changes evaluation/setup reliability and documentation. It
+does not add another RAG algorithm change or alter the original five targets.
+
+**Harness reliability.** `run_eval.py` now saves JSON and readable Markdown
+after each completed trial. JSON is flushed and atomically replaced before
+scoring; a scorer error therefore cannot discard its saved raw answer.
+`--resume PATH` skips completed trials, retains earlier usage, and rejects
+changes to questions, code, corpus, models, scorer availability, configuration,
+or recorded dependency versions. An unfinished request can still need to be
+repeated after a crash. `generate.py` has bounded 429 retries; exhausted
+retries leave an interrupted checkpoint instead of discarding earlier trials.
+Incomplete runs are labeled incomplete and cannot be finalized by `score_saved.py`.
+
+Pacing is now `--requests-per-minute 8`, or `AI201_REQUESTS_PER_MINUTE` through
+`config.py`. Each session records its actual rate. The tests inject failure
+after 14 synthetic answers, resume only remaining trials, retain raw output
+when scoring fails, verify atomic-write failure preserves prior evidence,
+and simulate bounded 429 retries. These fixtures are automated tests, not
+new model answers or evaluation scores.
+
+**Runtime verification.** The API-only telemetry switch used on September 29
+was insufficient for initialization events. The official ONNX Runtime
+[privacy documentation](https://github.com/microsoft/onnxruntime/blob/main/docs/Privacy.md)
+describes `ORT_DISABLE_TELEMETRY=1` before import as the process-lifetime
+non-Windows opt-out. The project and environment check now apply that switch
+before runtime imports, alongside Chroma's opt-out. The earlier failed and
+unconfirmed runs remain historical evidence. The new commands below all
+completed with successful process exits; this is an observed runtime outcome,
+not a claim that packet tracing proved absence of all network telemetry.
+System call tracing was unavailable in this workspace.
+
+The [automated regression log](results/tests_recovery_20261001.txt) records
+the existing and newly added tests with a successful exit. After collecting
+the new evidence, `python tools/summarize_evaluations.py --check` confirmed
+that the saved summary matches its source JSON.
+
+Setup initially needed the workspace SOCKS dependency (`socksio`) and the
+embedding download timed out. Downloading the same Chroma MiniLM archive
+from its existing CDN succeeded and matched the SHA-256 required by the
+installed embedding code. No model or corpus was substituted. Then
+[`python test.py`](results/runtime_check_20261001.txt) passed all environment
+checks, and the [index command](results/index_build_20261001.txt) rebuilt the
+existing 88-document, 91-chunk collection.
+
+**Canonical documentation.** [evaluation_summary.md](results/evaluation_summary.md)
+is generated from JSON and includes source hashes, per-run counts, and token
+totals. `--check` detects stale numbers. The original baseline and later
+scorer-enabled baseline have different real output-token totals; each has
+its own row. Those measurements were not rewritten. README retains manual
+verdicts/diagnoses, `criteria.md` retains targets, and the checklist and
+historical review point to those canonical locations.
+
+#### Run Log — After Stretch (third full evaluation)
+
+Commands actually executed, using the same corpus, model, original questions,
+original five criteria, top-k 1, and cutoff 0.6:
+
+```bash
+ORT_DISABLE_TELEMETRY=1 ANONYMIZED_TELEMETRY=False .venv/bin/python test.py
+ORT_DISABLE_TELEMETRY=1 ANONYMIZED_TELEMETRY=False .venv/bin/python app.py index
+ORT_DISABLE_TELEMETRY=1 ANONYMIZED_TELEMETRY=False .venv/bin/python run_eval.py --label after_stretch --runs 3 --requests-per-minute 8
+.venv/bin/python tools/check_split_chunks.py --label after_stretch
+```
+
+Actual evidence: [live JSON](results/run_20261001T031757487133Z_after_stretch.json),
+[live Markdown](results/run_20261001T031757487133Z_after_stretch.md),
+[console output](results/after_stretch_console_20261001.txt), and
+[fresh three-trial chunk log](results/chunks_20261001T031759129002Z_after_stretch.json).
+The live runner made separate uncached model calls for every covered trial.
+The full [manual review](results/after_stretch_review_20261001.md) checks all
+answers against their cited originals and all six chunk pieces against their
+own posts. Criterion 4 was freshly measured separately; the answer runner
+does not automatically measure it.
+
+| Criterion | Original Unit 1 target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | At least 4 of 5 covered questions | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every substantive answer names a source | Every answer produced | 5/5 | 5/5 | 5/5 | MET |
+| 3. Relevance gate stops unrelated questions | At least 4 of 5 refused | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks preserve sentences and source boundaries | All six chunks from the three named posts | 6/6 | 6/6 | 6/6 | MET |
+| 5. Cited sources support the claims | At least 4 of 5 covered answers | 5/5 | 5/5 | 5/5 | MET |
+
+**Decision sentences:**
+
+1. **MET:** Each of the five retrieved top-1 chunks contained all requested
+   facts in every run, exceeding the 4-of-5 target each time.
+2. **MET:** Every substantive answer named its retrieved source filename;
+   no covered answer failed the application's citation check.
+3. **MET:** All five fixed unrelated questions were stopped before generation
+   in every run, with the exact refusal text and no model calls for those trials.
+4. **MET:** All six newly recorded chunks retained complete source sentences
+   and their own source boundaries in every inspection repeat.
+5. **MET:** Every factual claim in all five covered answers per run was
+   supported by its explicitly cited original source, including the correct
+   entity and numerical restrictions. The manual review notes Aldridge run 2's
+   reliance on its filename for location identification; no wrong-location
+   claim or unsupported extra fact was found. The substring scorer is only
+   a supplementary check.
+
+Representative actual output, produced by `run_eval.py::run_once` through
+`app.py::ask_pipeline`, `store.py::search`, `gate.py::check`, and
+`generate.py::answer_from_chunks`, Aldridge run 1:
+
+```text
+Question: How much does one wash cost in Aldridge Hall, and how do you pay?
+Best cosine distance: 0.2623065848537246; relevance gate: passed
+Retrieved source: housing_aldridge_hall_laundry.txt
+Answer: One wash in Aldridge Hall costs $1.75, and you can pay using a card only (housing_aldridge_hall_laundry.txt).
+```
+
+The comparison with the earlier top-k-1 after run shows no original criterion
+score increase or decrease. The third full log closes the missing full-test
+evidence gap; it does not prove that lexical reranking improved generated
+answers. Its model usage is the `after_stretch` row in the generated summary.
+Output-token variation between live runs is not an isolated retrieval benefit.
+
+The supplemental retrieval-only pair was also repeated on this rebuilt index
+with three trials per question, using explicit vector-only `before` and lexical
+`after` modes. Both commands completed successfully; raw files are
+[before](results/stretch_probe_before_20261001T032137765435Z.json) and
+[after](results/stretch_probe_after_20261001T032237698683Z.json), with saved
+[before stdout](results/stretch_probe_before_console_20261001.txt) and
+[after stdout](results/stretch_probe_after_console_20261001.txt).
+
+```bash
+ORT_DISABLE_TELEMETRY=1 ANONYMIZED_TELEMETRY=False .venv/bin/python tools/stretch_probe.py --label before --runs 3
+ORT_DISABLE_TELEMETRY=1 ANONYMIZED_TELEMETRY=False .venv/bin/python tools/stretch_probe.py --label after --runs 3
+```
+
+| Supplemental measurement | Before run 1 | Before run 2 | Before run 3 | After run 1 | After run 2 | After run 3 |
+|---|---:|---:|---:|---:|---:|---:|
+| Answer-bearing selected chunks | 4/6 | 4/6 | 4/6 | 6/6 | 6/6 | 6/6 |
+| Unsupported near-topic questions refused by gate | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 |
+
+The lexical change again fixed the two diagnosed Kestrel retrieval misses;
+the gate weakness stayed the same. This is a measured retrieval improvement
+with an unchanged full original-criterion evaluation, not a measured increase
+in generated-answer accuracy. No deterioration was measured on these fixed
+sets; wider performance remains unknown. These supplemental questions still
+do not replace the original criterion questions or turn historical passes
+into misses.
+
+**What's still broken:** No original criterion is MISSED in the third log.
+The supplemental near-topic gate false positives and the lack of a separate
+multi-document answer evaluation remain limitations. The gate measures topic
+similarity rather than availability of the requested fact. I would next review
+live answers on a fixed unsupported/multi-document set before changing that
+gate; it would be another independent RAG change and is outside this follow-up.
+
+**What I'd Do Differently:** In addition to the original reflections above,
+I would specify whether the correct place must appear in ordinary answer prose
+or whether an exact identifying source filename suffices. That distinction
+should be settled before evaluation, not used afterward to manufacture a miss.
+I would also test checkpoint recovery before spending the live-call quota.
+
+ChatGPT helped implement and test recovery, inspect the official telemetry
+setting, run the fresh evaluation, compare each answer with source text, and
+consolidate documentation. Raw runtime output is separate from that review.
+The instructor decides whether the new stretch evidence earns additional
+points. The original empty miss list cannot justify claiming the previously
+unawarded diagnosis points.

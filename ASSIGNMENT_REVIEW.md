@@ -1,5 +1,11 @@
 # Assignment review — September 14, 2026
 
+This is a historical Unit 1 review. Current Unit 2 manual verdicts and
+diagnoses live in [README](README.md#unit-2--testing-the-same-rag-system-september-22-2026);
+live-run counts and token totals live in the JSON-derived
+[evaluation summary](results/evaluation_summary.md). This document does not
+restate current scores or completion status.
+
 **Later revision on September 14:** The student wrote criteria 4–5 after reading
 the chunks and source documents, then used Claude to pressure-test how a grader
 would check them. Criterion 4 checks all six pieces of the three split posts;

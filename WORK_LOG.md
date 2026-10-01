@@ -173,8 +173,30 @@ against original documents and the rule that a refusal counts as a failure.
   already contained all parts of every fixed question's answer. This removes
   corroborating sources too, so the after evaluation was necessary.
 - `run_eval.py --label after` made another 15 uncached model calls. All five
-  original criteria remained MET across three trials. Prompt tokens were
-  10,299 before and 4,557 after; total tokens 10,842 before and 5,047 after.
+  original criteria remained MET across three trials. Usage totals for this
+  specific original pair are now generated from the raw JSON in
+  [evaluation_summary.md](results/evaluation_summary.md).
   No universal quality or cost guarantee is claimed from these fixed trials.
 - Fourteen regression tests passed. README, RUNNING.md, and
   SUBMISSION_CHECKLIST.md were updated with full evidence and remaining limits.
+
+## Feedback follow-up — October 1, 2026 UTC
+
+Implemented checkpoint/resume, supported request pacing, and generated numeric
+summaries in response to the instructor's reliability and maintainability
+feedback. Added explicit failure-injection tests; their synthetic fixtures do
+not represent live model results. The newly supplied key was used only in the
+ignored local environment file.
+
+The official pre-import ONNX telemetry switch enabled successful runtime
+checks and index rebuild. A full post-stretch live evaluation and a new paired
+retrieval probe completed with successful process exits. Each earlier result
+file remains unchanged. Current manual judgments, diagnoses, execution
+evidence, and remaining limitations are canonical in the
+[October 1 README follow-up](README.md#october-1-feedback-follow-up);
+run counts and usage are canonical in the
+[JSON-derived summary](results/evaluation_summary.md).
+
+The original clean sweep is preserved. The instructor's empty-miss-list rule
+cannot be satisfied by inventing a failed original criterion. Any reassessed
+grade remains the instructor's decision.

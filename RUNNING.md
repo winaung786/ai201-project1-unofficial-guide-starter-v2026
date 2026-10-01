@@ -6,9 +6,9 @@ Everything about how the starter works and how to use it.
 
 ## Before your first class
 
-Setup happens **before class**, not during it. The
-[environment setup page](../pages/ide_setup) has the per-operating-system
-commands, the exact versions, and where to get your API key.
+Setup happens **before class**, not during it. Use the operating-system
+commands below, the version bounds in `requirements.txt`, and the API-key
+instructions in `.env.example`.
 
 The short version, from inside this repo after you've forked and cloned it:
 
