@@ -227,6 +227,7 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
 
     last_error: Exception | None = None
     for attempt in range(config.MAX_RETRIES):
+        _check_budget()
         _wait_for_slot()
         try:
             client = _get_client()
@@ -255,6 +256,8 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
             )
             if not rate_limited:
                 raise
+            if attempt + 1 == config.MAX_RETRIES:
+                break
             backoff = 2 ** attempt
             print(
                 f"  [rate limit] service pushed back. Retrying in {backoff}s "
@@ -265,8 +268,8 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
             time.sleep(backoff)
 
     raise RuntimeError(
-        f"Still rate limited after {config.MAX_RETRIES} attempts. Wait a "
-        f"minute and try again — your key is fine.\nLast error: {last_error}"
+        f"Still rate limited after {config.MAX_RETRIES} attempts. Wait before "
+        f"resuming the evaluation checkpoint.\nLast error: {last_error}"
     )
 
 

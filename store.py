@@ -27,6 +27,9 @@ from dataclasses import dataclass
 # exactly like a real error, isn't one, and cost a previous cohort a lot of
 # confused help-channel messages.
 os.environ.setdefault("ANONYMIZED_TELEMETRY", "False")
+# ONNX Runtime 1.29+ can emit a POSIX initialization event before its Python
+# opt-out API runs. Its documented process-lifetime switch must precede import.
+os.environ["ORT_DISABLE_TELEMETRY"] = "1"
 
 import chromadb  # noqa: E402
 

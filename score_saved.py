@@ -16,6 +16,8 @@ from scorer import judge
 
 def score_trials(data: dict) -> tuple[list[dict], int]:
     """Apply the Week 2 scorer to all recorded covered-question trials."""
+    if data.get("status", "complete") != "complete":
+        raise ValueError("Source evaluation is incomplete; resume it before final scoring")
     if data.get("answer_cache") is not False:
         raise ValueError("Source log does not prove answer caching was disabled")
     runs = data.get("runs")

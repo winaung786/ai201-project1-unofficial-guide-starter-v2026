@@ -97,6 +97,8 @@ Useful flags:
 | `--top-k 8` | `ask`, `retrieve` | Retrieve more or fewer chunks |
 | `--threshold 0.7` | `ask` | Try a different relevance cutoff without editing `config.py` |
 | `--label before` | `run_eval.py` | Names the output file, so before and after are distinguishable |
+| `--requests-per-minute 8` | `run_eval.py` | Sets request pacing without editing code |
+| `--resume results/run_TIMESTAMP_LABEL.json` | `run_eval.py` | Continues an interrupted checkpoint, skipping completed trials |
 
 ---
 
@@ -168,8 +170,40 @@ this for you:
   token counts come off the responses themselves, so they're a measurement of
   what a run cost rather than an estimate.
 
-If you see a `429` or "resource exhausted" error, that's a rate limit and not a
-broken key. Wait a minute and re-run.
+If you see a `429` or "resource exhausted" error, the service is rate limiting.
+`generate.py` retries with bounded exponential backoff. If those retries are
+exhausted, the evaluation saves an interrupted checkpoint and exits unsuccessfully.
+Wait before resuming that checkpoint, using a lower pacing rate if needed:
+
+```bash
+python run_eval.py --label after_stretch --runs 3 --requests-per-minute 8
+python run_eval.py --resume results/run_TIMESTAMP_after_stretch.json --requests-per-minute 8
+python tools/summarize_evaluations.py
+python tools/summarize_evaluations.py --check
+```
+
+Replace the resume filename with the exact path printed by the first command;
+run the resume command only if that evaluation was interrupted. The JSON and
+readable Markdown are updated atomically after each completed trial. Raw
+answers are checkpointed before scoring, so a scorer error can be retried
+without generating that answer again. A crash during an unfinished model call
+can still require repeating that unfinished trial; already saved answers are
+retained. Failed request attempts count toward recorded usage, while absent
+token metadata is not estimated.
+
+The pacing setting is resolved in `config.py` from `AI201_REQUESTS_PER_MINUTE`
+(default 30), with the CLI taking precedence. Resume inherits the recorded
+pacing unless a new CLI value is supplied; each session records its actual
+rate. It inherits evaluation settings and rejects changed code, corpus,
+questions, models, scorer availability, or package versions. Do not rebuild or
+change the selected index while an evaluation is in progress, and run only one
+process against a checkpoint at a time. Historical end-only logs cannot be
+resumed or rewritten through this option.
+
+The project and `test.py` set `ORT_DISABLE_TELEMETRY=1` before importing the
+runtime, alongside Chroma's telemetry opt-out. This follows ONNX Runtime's
+[process-lifetime opt-out](https://github.com/microsoft/onnxruntime/blob/main/docs/Privacy.md).
+The earlier Python API-only opt-out could not suppress initialization events.
 
 ---
 

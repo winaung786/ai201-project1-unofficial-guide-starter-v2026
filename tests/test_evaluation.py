@@ -29,6 +29,8 @@ class EvaluationTests(unittest.TestCase):
         self.assertFalse(scorer.judge("Question", "", "Any answer", []))
 
     def test_saved_scoring_rejects_incomplete_or_cached_runs(self):
+        with self.assertRaisesRegex(ValueError, "incomplete"):
+            score_saved.score_trials({"status": "interrupted"})
         with self.assertRaisesRegex(ValueError, "caching was disabled"):
             score_saved.score_trials({"answer_cache": True, "runs": 3})
         with self.assertRaisesRegex(ValueError, "at least three runs"):

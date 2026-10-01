@@ -17,6 +17,9 @@ Nothing here touches your project code, and nothing here is graded.
 import importlib
 import importlib.metadata as md
 import os
+# Apply the same process-lifetime telemetry opt-out before package imports.
+os.environ["ORT_DISABLE_TELEMETRY"] = "1"
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
 import platform
 import re
 import shutil
